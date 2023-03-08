@@ -1,8 +1,18 @@
 @startuml class
-class java.rmi.registry as "Registry"
-interface java.rmi.Remote as "Remote"
+class java.rmi.registry as "Registry" {
+    {static} getRegistry(): Registry
+    lookup(name: String): Remote
+    bind(name: String, obj: Remote): void
+}
+interface java.rmi.Remote as "Remote" {
+    {static} stub(): Remote
+}
+class java.rmi.locateRegistry as "LocateRegistry" {
+    {static} getRegistry(): Registry
+    {static} createRegistry(port: int): Registry
+}
 
-interface hello.hello as "HelloRmiInterface" {
+interface hello.helloInterface as "HelloRmiInterface" {
     sayHello(): String
 }
 class hello.server as "HelloRmiServer" {
@@ -12,9 +22,16 @@ class hello.client as "HelloRmiClient" {
     {static} main(args: String[]): void 
 }
 
-java.rmi.Remote --|> hello.hello
-hello.hello <|. server
-client ..> server
-client ..> registry
-server ..> registry
+registry --|> Remote: implements
+java.rmi.Remote <|-- hello.helloInterface: extends
+server .|> hello.helloInterface: implements
+client ..> server: roept indirect aan
+client ..> registry: haalt stub op uit ... 
+note on link #yellow: voldoet aan\n HelloRmiInterface
+server ..> registry: haalt skeleton\nop uit ...
+note on link #yellow: voldoet aan\n HelloRmiInterface
+client ..> locateRegistry: haalt aangemaakte \nregistry op uit
+server ..> locateRegistry: maakt registry \n aan met
+client ..> helloInterface: heeft stub gegenereerd \n volgens interface
+
 @enduml

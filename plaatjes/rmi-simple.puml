@@ -1,5 +1,9 @@
 @startuml sequence
+skinparam sequenceMessageAlign center
+skinparam sequenceMessageAlign center
+hide footbox
+
 HelloRmiClient -> HelloRmiServer: <<rmi>> \n sayHello()
 
-HelloRmiServer --> HelloRmiClient: <<rmi>> \n "Hello World"
+HelloRmiServer --> HelloRmiClient: <<rmi>> \n "Hello World <:1f600:>"
 @enduml

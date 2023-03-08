@@ -1,4 +1,7 @@
 @startuml sequence
+skinparam sequenceMessageAlign center
+hide footbox
+
 participant HelloRmiClient as "client: HelloRmiClient" order 1
 entity stub as "stub: Stub" order 2
 participant HelloRmiServer as "server: HelloRmiServer" order 3
@@ -7,6 +10,6 @@ participant HelloRmiServer as "server: HelloRmiServer" order 3
 HelloRmiClient -> stub: sayHallo()
 stub -> HelloRmiServer: sayHello() <tcp>
 
-HelloRmiServer --> stub: "Hello World"
-stub --> HelloRmiClient :"Hello World"
+HelloRmiServer --> stub: "Hello World <:1f600:>"
+stub --> HelloRmiClient :"Hello World <:1f600:>"
 @enduml

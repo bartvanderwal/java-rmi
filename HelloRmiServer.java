@@ -8,21 +8,21 @@ public class HelloRmiServer implements HelloRmiInterface {
     public HelloRmiServer() {}
 
     public String sayHello() {
-        return "Hello, world!";
+        return "Hello, world! 😀";
     }
         
     public static void main(String args[]) {
         
         try {
             HelloRmiServer obj = new HelloRmiServer();
-            HelloRmiInterface stub = (HelloRmiInterface) UnicastRemoteObject.exportObject(obj, 0);
+            HelloRmiInterface skeleton = (HelloRmiInterface) UnicastRemoteObject.exportObject(obj, 0);
 
             // Bind the remote object's stub in the registry
             Registry registry = LocateRegistry.createRegistry(1099);
             try {
-                registry.bind("rmi101", stub);
+                registry.bind(HelloRmiInterface.NAAM, skeleton);
             } catch (AlreadyBoundException e) {
-                System.err.println("Interface " + HelloRmiConstants.NAAM + " already bound");
+                System.err.println("Interface " + HelloRmiInterface.NAAM + " already bound");
             }
             System.out.println("Server ready");
         } catch (Exception e) {

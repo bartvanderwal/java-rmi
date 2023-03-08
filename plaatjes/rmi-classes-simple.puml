@@ -1,0 +1,17 @@
+@startuml class
+
+class server as "HelloRmiServer" {
+    sayHello(): String
+}
+class client as "HelloRmiClient" {
+    main(): void
+}
+
+note top of client
+  Roept server aan
+  en print resultaat naar console.
+end note
+
+client .> server: calls
+
+@enduml

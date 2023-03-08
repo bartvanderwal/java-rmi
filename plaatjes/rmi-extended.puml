@@ -1,19 +1,31 @@
 @startuml sequence
 autonumber
+skinparam sequenceMessageAlign center
+hide footbox
+
 participant client as "client: HelloRmiClient"
-entity stub as "stub: Stub"
+entity stub as "proxy: HelloRmiInterface"
+collections registry as "RmiRegistry (//static//)"
+entity skeleton as "skeleton: HelloRmiInterface"
 participant server as "server: HelloRmiServer"
-collections RmiRegistry
 
-client -> RmiRegistry: lookup("hallo")
-RmiRegistry --> client: stub
+server -> registry: createRegistry(1099)
+registry -> server: registry
 
-server -> RmiRegistry: lookup("hallo")
-RmiRegistry --> server: stub
+server -> registry: lookup("rmi101")
+registry --> server: skeleton
+
+client -> registry: getRegistry(1099)
+registry -> client: registry
+
+client -> registry: bind("rmi101)
+registry -> client: proxy
+
+||| 
 
 client -> stub: sayHallo()
 stub -> server: sayHello() <tcp>
 
-server --> stub: "Hello World"
-stub --> client :"Hello World"
+server --> stub: "Hello World <:1f600:>"
+stub --> client :"Hello World <:1f600:>"
 @enduml
