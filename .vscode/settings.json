@@ -1,0 +1,9 @@
+{
+    "explorer.autoRevealExclude": {
+        "**/*.class": true
+    },
+    "markdown-preview-enhanced.plantumlServer": "http://localhost:8081",
+    "plantuml.fileExtensions": ".wsd,.pu,.puml,.plantuml,.iuml,*.md",
+    "plantuml.render": "PlantUMLServer",
+    "plantuml.server": "http://www.plantuml.com/plantuml"
+}

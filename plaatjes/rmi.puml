@@ -1,0 +1,12 @@
+@startuml sequence
+participant HelloRmiClient as "client: HelloRmiClient" order 1
+entity stub as "stub: Stub" order 2
+participant HelloRmiServer as "server: HelloRmiServer" order 3
+
+
+HelloRmiClient -> stub: sayHallo()
+stub -> HelloRmiServer: sayHello() <tcp>
+
+HelloRmiServer --> stub: "Hello World"
+stub --> HelloRmiClient :"Hello World"
+@enduml

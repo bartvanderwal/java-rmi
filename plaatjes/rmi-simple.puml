@@ -1,0 +1,5 @@
+@startuml sequence
+HelloRmiClient -> HelloRmiServer: <<rmi>> \n sayHello()
+
+HelloRmiServer --> HelloRmiClient: <<rmi>> \n "Hello World"
+@enduml

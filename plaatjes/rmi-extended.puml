@@ -1,0 +1,19 @@
+@startuml sequence
+autonumber
+participant client as "client: HelloRmiClient"
+entity stub as "stub: Stub"
+participant server as "server: HelloRmiServer"
+collections RmiRegistry
+
+client -> RmiRegistry: lookup("hallo")
+RmiRegistry --> client: stub
+
+server -> RmiRegistry: lookup("hallo")
+RmiRegistry --> server: stub
+
+client -> stub: sayHallo()
+stub -> server: sayHello() <tcp>
+
+server --> stub: "Hello World"
+stub --> client :"Hello World"
+@enduml
