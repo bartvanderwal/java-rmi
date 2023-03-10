@@ -24,13 +24,13 @@ Uitleg staat hierbij. Evt. te refactoren naar startup script, en/of in een Java 
 # rmic -classpath HelloRmiInterface
 
 # Compileer de code
-javac -d target *.java
+javac -d target **/*.java
 
 # Run eerst de server (1e proces met eigen JVM)
-java -cp target HelloRmiServer
+java -cp target ServerApp
 
 # Run dan de client (2e proces met ook eigen JVM)
-java -cp target HelloRmiClient
+java -cp target ClientApp
 ```
 
 ### Stoppen rmiregistry handmatig

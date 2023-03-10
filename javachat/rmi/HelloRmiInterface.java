@@ -1,3 +1,5 @@
+package javachat.rmi;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
