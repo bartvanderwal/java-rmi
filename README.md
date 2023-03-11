@@ -12,6 +12,12 @@ Uitleg staat hierbij. Evt. te refactoren naar startup script, en/of in een Java 
 
 ### Terminal
 
+De gecompileerde classes gaan naar `target` folder, alvast de Mavan standaard.
+
+Voor projecten met meer dan een file, en geneste structuur/packages moet je `-sourcepath` parameter gebruiken.
+Anders krijg je veel 'cannot find symbol` errors.
+Bron: https://stackoverflow.com/questions/13407983/javac-cannot-find-symbol-error-with-command-line
+
 ```bash
 # Starten/aanmaken RMR registry op host computer (vereist voor werken RMI)
 # Deprecated: De server programma maakt nu de 'RMI Registry' aan.
@@ -24,13 +30,13 @@ Uitleg staat hierbij. Evt. te refactoren naar startup script, en/of in een Java 
 # rmic -classpath HelloRmiInterface
 
 # Compileer de code
-javac -d target *.java
+javac -d target -sourcepath rmi **/*.java
 
 # Run eerst de server (1e proces met eigen JVM)
-java -cp target HelloRmiServer
+java -cp target ChatServerApp
 
 # Run dan de client (2e proces met ook eigen JVM)
-java -cp target HelloRmiClient
+java -cp target ChatClientApp
 ```
 
 ### Stoppen rmiregistry handmatig
