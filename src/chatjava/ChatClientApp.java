@@ -1,18 +1,18 @@
 package chatjava;
 
-import chatjava.rmi;
+import chatjava.rmi.*;
 
 public class ChatClientApp {
 
-    HelloRmiClient helloClient;
+    HalloRmiClient helloClient;
 
     public static void main(String[] args) {
         // Default host voor RMI Registry, als leeg dan localhost op port 1099.
         var host = (args.length < 1) ? null : args[0];
 
-        HelloRmiClient helloClient = new HelloRmiClient(host);
+        var halloClient = new HalloRmiClient(host);
 
-        var response = helloClient.sayHello();
-        System.out.println("response: " + response);
+        var response = halloClient.zegHallo();
+        Logger.info("Response: " + response);
     }
 }

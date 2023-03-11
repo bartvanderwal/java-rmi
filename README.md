@@ -29,14 +29,18 @@ Bron: https://stackoverflow.com/questions/13407983/javac-cannot-find-symbol-erro
 # Zoals moderne gRPC (native), standaard REST API (Swagger, 3rd party) of old skool SOAP (wsdl e.d.)
 # rmic -classpath HelloRmiInterface
 
-# Compileer de code
-javac -d target -sourcepath rmi **/*.java
+# Compileer de code voor de Server app.
+javac -d target -sourcepath src src/chatjava/ChatServerApp.java
 
-# Run eerst de server (1e proces met eigen JVM)
-java -cp target ChatServerApp
+# Compileer de code voor de Client app.
+javac -d target -sourcepath src src/chatjava/ChatClientApp.java
+
+# Run eerst de server (1e proces met eigen JVM).
+java -cp target chatjava/ChatServerApp
 
 # Run dan de client (2e proces met ook eigen JVM)
-java -cp target ChatClientApp
+# Omdat server nog draait, moet je 2e prompt openen, bv. 2e 'tabblad'.
+java -cp target chatjava/ChatClientApp
 ```
 
 ### Stoppen rmiregistry handmatig
