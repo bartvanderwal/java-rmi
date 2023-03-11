@@ -49,6 +49,7 @@ Voor zelf runnen van server: kopieer config bestand `src/resources/server.proper
 
 Om de rmiregistry handmatig te stoppen, kun je het volgende doen.
 
+macOS
 ```bash
 lsof -i :1099
 kill <returnedPid>

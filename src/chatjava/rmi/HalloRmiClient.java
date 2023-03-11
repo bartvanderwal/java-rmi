@@ -3,6 +3,7 @@ package chatjava.rmi;
 import java.rmi.*;
 import java.rmi.registry.*;
 import chatjava.*;
+import chatjava.client.*;
 
 import chatjava.ChatJavaException;
 
@@ -10,9 +11,18 @@ public class HalloRmiClient {
 
     private String host;
 
+    private Io io;
+
+    // Voorlopig is logLevel op client standaard info.
+    // TODO: Evt. ook een `client.properties` toevoegen met instelbaar logLevel erin zoals voor server app.
+    private ClientLogger logger;
+
+
     public HalloRmiClient(String host) {
         this.host = host;
         proxy = lookupHalloProxy();
+        logger = new ClientLogger(null);
+        this.io = new Io(logger);
     }
 
     private String aanmeldNaam;
@@ -31,9 +41,30 @@ public class HalloRmiClient {
         }
     }
 
+    public void startDialoog() {
+        System.out.println("Chat client gestart.");
+
+        var halloWereldResponse = zegHallo();
+        logger.info("ChatServer draait! Response: " + halloWereldResponse);
+
+        var prompt = "Geef een aanmeldnaam om je mee aan te melden bij chatserver.";
+        var aanmeldNaam = io.vraagInput(false, prompt);
+
+        var response = meldAan(aanmeldNaam);
+        logger.info(response);
+
+        var bericht = "";        
+        while (bericht!="stop") {
+            bericht = io.vraagInput(false, "Tik een chat bericht en <enter> om te verzenden ('stop' om te stoppen).");
+
+            // TODO Verstuur bericht en handel response/callback af.
+            chat(bericht);
+        }
+    }
+
     // We gaan ervan uit dat als ophalen proxy goed ging, er dan geen verdere RemoteExceptions meer optreden.
     // En gooien daarom RemoteException door als RunTimeException.
-    public String zegHallo() {
+    private String zegHallo() {
         try {
             return proxy.zegHallo();
         } catch (RemoteException e) {
@@ -41,7 +72,7 @@ public class HalloRmiClient {
         }
     }
 
-    public String meldAan(String aanmeldNaam) {
+    private String meldAan(String aanmeldNaam) {
         if (aanmeldNaam=="" || aanmeldNaam==null) {
             throw new InvalidAanmeldException("Aanmeldnaam mag niet leeg zijn.");
         }
@@ -56,7 +87,7 @@ public class HalloRmiClient {
         }
     }
 
-    public void chat(String bericht) {
+    private void chat(String bericht) {
         if (this.aanmeldNaam != "") {
             throw new InvalidAanmeldException("Je verstuur een bericht, maar bent nog niet aangemeld.");
         }
