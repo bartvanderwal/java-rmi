@@ -7,6 +7,8 @@ public abstract class Logger {
 
     protected LogLevel logLevel;
     
+    protected GeneralProperties properties;
+    
     public void secret(String tekst) {
         if (logLevel==LogLevel.SECRET) {
             println(tekst);

@@ -11,11 +11,15 @@ public class HalloRmiClient {
 
     private String host;
 
+    private String aanmeldNaam;
+
     private Io io;
 
     // Voorlopig is logLevel op client standaard info.
     // TODO: Evt. ook een `client.properties` toevoegen met instelbaar logLevel erin zoals voor server app.
     private ClientLogger logger;
+
+    private HalloRmiInterface proxy;
 
 
     public HalloRmiClient(String host) {
@@ -24,10 +28,6 @@ public class HalloRmiClient {
         logger = new ClientLogger(null);
         this.io = new Io(logger);
     }
-
-    private String aanmeldNaam;
-
-    private HalloRmiInterface proxy;
     
     private HalloRmiInterface lookupHalloProxy() {
         try {
@@ -50,16 +50,18 @@ public class HalloRmiClient {
         var prompt = "Geef een aanmeldnaam om je mee aan te melden bij chatserver.";
         var aanmeldNaam = io.vraagInput(false, prompt);
 
+        // logger.info("Gelezen aanmeldNaam: " + aanmeldNaam);
         var response = meldAan(aanmeldNaam);
-        logger.info(response);
+        logger.info("Response aanmelding server: " + response);
 
         var bericht = "";        
-        while (bericht!="stop") {
+        while (!bericht.equals("stop")) {
             bericht = io.vraagInput(false, "Tik een chat bericht en <enter> om te verzenden ('stop' om te stoppen).");
 
-            // TODO Verstuur bericht en handel response/callback af.
+            // Verstuur bericht en handel response/callback af.
             chat(bericht);
         }
+        logger.info("Chat client gestopt. Tot de volgende keer!");
     }
 
     // We gaan ervan uit dat als ophalen proxy goed ging, er dan geen verdere RemoteExceptions meer optreden.
@@ -88,8 +90,8 @@ public class HalloRmiClient {
     }
 
     private void chat(String bericht) {
-        if (this.aanmeldNaam != "") {
-            throw new InvalidAanmeldException("Je verstuur een bericht, maar bent nog niet aangemeld.");
+        if (this.aanmeldNaam == "") {
+            throw new InvalidAanmeldException("Je verstuurt een bericht, maar bent nog niet aangemeld.");
         }
         try {
             proxy.chat(bericht, this.aanmeldNaam);

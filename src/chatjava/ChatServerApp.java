@@ -8,7 +8,7 @@ import chatjava.server.*;
 
 public class ChatServerApp {
 
-    RmiRegistry registry;
+    static RmiRegistry registry;
 
     static Io io;
 
@@ -29,8 +29,7 @@ public class ChatServerApp {
         // Inlezen naam die gebruiker ingeeft.
         io = new Io(logger);
         var serverNaam = io.vraagInput(DEFAULT_SERVER_NAAM, prompt);
-        logger.info("Ok, ik heet '" + serverNaam + "'.\nRPC channel staat open en ik wacht op clients die me TCP'en 😀.");
-        var registry = new RmiRegistry(serverNaam, logger);
+        registry = new RmiRegistry(serverNaam, logger);
     }
 
 }

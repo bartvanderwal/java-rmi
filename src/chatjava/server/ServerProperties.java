@@ -4,31 +4,16 @@ import chatjava.*;
 import java.util.*;
 import java.io.*;
 
-public class ServerProperties {
+public class ServerProperties extends GeneralProperties {
 
-    public static final String PROPERTIES_FILE_PATH = "src/resources/server.properties";
-
-    private Properties properties;
+    protected static final String PROPERTIES_FILE_PATH = "src/resources/server.properties";
 
     public ServerProperties() {
-        properties = new Properties();
-
-        try (InputStream input = new FileInputStream(PROPERTIES_FILE_PATH)) {
-            // load a properties file
-            properties.load(input);    
-        } catch (IOException ex) {
-            throw new ChatJavaException("Het bestand " + PROPERTIES_FILE_PATH + "lijkt niet te bestaan.", ex);
-        }
+        super(PROPERTIES_FILE_PATH);
     }
-
     public String chatGptApiKey() {
         // Bron: https://stackoverflow.com/questions/8285595/reading-properties-file-in-java        
-        return properties.getProperty("chatGptApiToken");
-    }
-
-    public String logLevel() {
-        // Bron: https://stackoverflow.com/questions/8285595/reading-properties-file-in-java        
-        return properties.getProperty("logLevel");
+        return getValueForKey("chatGptApiToken");
     }
 
 }

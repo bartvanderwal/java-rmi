@@ -30,15 +30,20 @@ public class HalloRmiServer implements HalloRmiInterface {
         String response = "Hallo " + naam + ", groeten terug van server '" + serverNaam + "'.\n";
         if (!abonnees.contains(naam)) {
             abonnees.add(naam);
-            response += "Je bent toegevoegd in lijst abonnees.";
+            response += "Je bent toegevoegd in lijst abonnees: " + abonneesAlsString();
         } else {
-            response += "Je stond al in de lijst abonnees.";
+            response += "Je stond al in de lijst abonnees: " + abonneesAlsString();
         }
+        System.out.println(response);
         return response;
 
         // TODO Add callback to function and call it.
         // Om onder andere alle berichten tot nu toe ook te versturen van server naar client
         // En op client weer te geven.
+    }
+
+    public String abonneesAlsString() {
+        return String.join(", ", abonnees);
     }
  
     public void chat(String bericht, String aanmeldNaam) {
