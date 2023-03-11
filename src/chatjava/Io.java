@@ -1,4 +1,4 @@
-package chatjava.rmi;
+package chatjava;
 
 import java.util.*;
 

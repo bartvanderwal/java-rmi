@@ -3,6 +3,8 @@ package chatjava.rmi;
 import java.rmi.*;
 import java.rmi.registry.*;
 
+import chatjava.ChatJavaException;
+
 public class HalloRmiClient {
 
     private String host;
@@ -19,14 +21,11 @@ public class HalloRmiClient {
             Registry registry = LocateRegistry.getRegistry(host);
             HalloRmiInterface proxy = (HalloRmiInterface) registry.lookup(HalloRmiInterface.NAAM);
             return proxy;
-       } catch (RemoteException e) {
-            System.err.println("Client exception: " + e.toString());
-            e.printStackTrace();
+        } catch (RemoteException e) {
+            throw new ChatJavaException("Remote exception op Chat Client", e);
         } catch (NotBoundException e) {
-            System.err.println(HalloRmiInterface.NAAM + "niet bekend in RMI Registry: " + e.toString());
-            e.printStackTrace();
+            throw new ChatJavaException("Client: " + HalloRmiInterface.NAAM + " interface niet bekend in RMI Registry.", e);
         }
-        return null;
     }
 
     // We gaan ervan uit dat als ophalen proxy goed ging, er dan geen verdere RemoteExceptions meer optreden.
@@ -35,8 +34,7 @@ public class HalloRmiClient {
         try {
             return proxy.zegHallo();
         } catch (RemoteException e) {
-            System.err.println("Client exception: " + e.toString());
-            e.printStackTrace();
+            throw new ChatJavaException("Client exception: " + e.toString(), e);
         }
         return null;
     }
@@ -47,8 +45,7 @@ public class HalloRmiClient {
         try {
             return proxy.meldAan(aanmeldNaam);
         } catch (RemoteException e) {
-            System.err.println("Client exception: " + e.toString());
-            e.printStackTrace();
+            throw new ChatJavaException("Client - Exception bij aanmelden:", e);
         }
         return null;
     }

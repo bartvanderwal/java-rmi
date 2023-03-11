@@ -7,11 +7,14 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
 import chatjava.*;
-// import chatjava.Logger;
+import chatjava.logging.*;
 
 public class RmiRegistry {
     
-    public RmiRegistry(String serverNaam) {
+    private Logger logger;
+
+    public RmiRegistry(String serverNaam, Logger logger) {
+        this.logger = logger;
         try {
             Registry registry = LocateRegistry.createRegistry(1099);
             // Bind the remote object's stub in the registry.
@@ -21,15 +24,13 @@ public class RmiRegistry {
             try {
                 registry.bind(HalloRmiInterface.NAAM, skeleton);
             } catch (AlreadyBoundException e) {
-                Logger.error("Interface " + HalloRmiInterface.NAAM + " al gebonden.");
+                logger.error("Interface " + HalloRmiInterface.NAAM + " al gebonden.");
             }
-            Logger.info("Server klaar");
+            logger.info("Server staat klaar.");
         } catch (RemoteException e) {
-            System.err.println("Probleem bij aanmaken RMI registry. Runt wellicht al. Error: " + e.toString());
-            throw new ChatJavaException(e);
+            throw new ChatJavaException("Probleem bij aanmaken RMI registry. Runt wellicht al.", e);
         } catch (Exception e) {
-            System.err.println("Server exception: " + e.toString());
-            throw new ChatJavaException(e);
+            throw new ChatJavaException("Server exception.", e);
         }
     }
 }
