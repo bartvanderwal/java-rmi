@@ -1,8 +1,8 @@
-package javachat;
+package chatjava;
 
-import javachat.rmi;
+import chatjava.rmi;
 
-public class ClientApp {
+public class ChatClientApp {
 
     HelloRmiClient helloClient;
 

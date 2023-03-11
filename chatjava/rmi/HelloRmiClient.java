@@ -1,4 +1,4 @@
-package javachat.rmi;
+package chatjava.rmi;
 
 import java.rmi.*;
 import java.rmi.registry.*;
@@ -30,7 +30,7 @@ public class HelloRmiClient {
     }
 
     // We gaan ervan uit dat als ophalen proxy goed ging, er dan geen verdere RemoteExceptions meer optreden.
-    // En vangen deze daarom niet op.
+    // En gooien daarom RemoteException door als RunTimeException.
     public String sayHello() {
         try {
             return proxy.sayHello();

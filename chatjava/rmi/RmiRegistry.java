@@ -1,4 +1,4 @@
-package javachat.rmi;
+package chatjava.rmi;
 
 import java.rmi.registry.Registry;
 import java.rmi.AlreadyBoundException;
