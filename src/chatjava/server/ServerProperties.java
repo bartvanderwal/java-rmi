@@ -25,4 +25,10 @@ public class ServerProperties {
         // Bron: https://stackoverflow.com/questions/8285595/reading-properties-file-in-java        
         return properties.getProperty("chatGptApiToken");
     }
+
+    public String logLevel() {
+        // Bron: https://stackoverflow.com/questions/8285595/reading-properties-file-in-java        
+        return properties.getProperty("logLevel");
+    }
+
 }

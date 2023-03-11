@@ -2,6 +2,7 @@ package chatjava.rmi;
 
 import java.rmi.*;
 import java.rmi.registry.*;
+import chatjava.*;
 
 import chatjava.ChatJavaException;
 
@@ -13,6 +14,8 @@ public class HalloRmiClient {
         this.host = host;
         proxy = lookupHalloProxy();
     }
+
+    private String aanmeldNaam;
 
     private HalloRmiInterface proxy;
     
@@ -36,17 +39,32 @@ public class HalloRmiClient {
         } catch (RemoteException e) {
             throw new ChatJavaException("Client exception: " + e.toString(), e);
         }
-        return null;
     }
 
-    // We gaan ervan uit dat als ophalen proxy goed ging, er dan geen verdere RemoteExceptions meer optreden.
-    // En gooien daarom RemoteException door als RunTimeException.
     public String meldAan(String aanmeldNaam) {
+        if (aanmeldNaam=="" || aanmeldNaam==null) {
+            throw new InvalidAanmeldException("Aanmeldnaam mag niet leeg zijn.");
+        }
+        if (this.aanmeldNaam != null) {
+            throw new InvalidAanmeldException("Je bent al aangemeld; mag niet een tweede keer.");
+        }
+        this.aanmeldNaam = aanmeldNaam;
         try {
             return proxy.meldAan(aanmeldNaam);
         } catch (RemoteException e) {
             throw new ChatJavaException("Client - Exception bij aanmelden:", e);
         }
-        return null;
     }
+
+    public void chat(String bericht) {
+        if (this.aanmeldNaam != "") {
+            throw new InvalidAanmeldException("Je verstuur een bericht, maar bent nog niet aangemeld.");
+        }
+        try {
+            proxy.chat(bericht, this.aanmeldNaam);
+        } catch (RemoteException e) {
+            throw new ChatJavaException("Client - Exception bij versturen bericht:" + bericht, e);
+        }
+    }
+
 }

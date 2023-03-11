@@ -1,7 +1,7 @@
 package chatjava.logging;
 
-import chatjava.logging.*;
 import chatjava.*;
+import chatjava.logging.*;
 
 public abstract class Logger {
 
@@ -28,6 +28,9 @@ public abstract class Logger {
     }
 
     protected LogLevel determineLogLevel(String logLevelString) {
+        if (logLevelString==null) {
+            logLevelString = "";
+        }
         switch (logLevelString) {
             case "error":
                 return LogLevel.ERROR;
@@ -36,7 +39,7 @@ public abstract class Logger {
                 return LogLevel.INFO;
             case "secret":
                 return LogLevel.SECRET;
-            default: throw new ChatJavaException("Loglevel ongeldige waarde '" + logLevel + "', gebruik 'error', 'info' (default) of 'secret' (of laat weg of leeg).");
+            default: throw new ChatJavaException("Loglevel ongeldige waarde '" + logLevelString + "'. Gebruik 'error', 'info' (default) of 'secret' (of laat weg of leeg).");
         }
     }
 }

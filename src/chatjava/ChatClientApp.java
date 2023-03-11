@@ -26,15 +26,20 @@ public class ChatClientApp {
         var halloWereldResponse = client.zegHallo();
         logger.info("ChatServer draait! Response: " + halloWereldResponse);
 
-        logger.info("Geef een aanmeldnaam om je mee aan te melden bij chatserver.");
-        io = new Io();
-        var aanmeldNaam = io.vraagInput();
+
+        io = new Io(logger);
+        var prompt = "Geef een aanmeldnaam om je mee aan te melden bij chatserver.";
+        var aanmeldNaam = io.vraagInput(false, prompt);
 
         var response = client.meldAan(aanmeldNaam);
         logger.info(response);
-        
-        // io = new Io();
-        // var serverNaam = io.vraagInput();
 
+        var bericht = "";        
+        while (bericht!="stop") {
+            bericht = io.vraagInput(false, "Tik een chat bericht en <enter> om te verzenden ('stop' om te stoppen).");
+
+            // TODO Verstuur bericht en handel response/callback af.
+            client.chat(bericht);
+        }
     }
 }
