@@ -40,4 +40,16 @@ public class HalloRmiClient {
         }
         return null;
     }
+
+    // We gaan ervan uit dat als ophalen proxy goed ging, er dan geen verdere RemoteExceptions meer optreden.
+    // En gooien daarom RemoteException door als RunTimeException.
+    public String meldAan(String aanmeldNaam) {
+        try {
+            return proxy.meldAan(aanmeldNaam);
+        } catch (RemoteException e) {
+            System.err.println("Client exception: " + e.toString());
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
