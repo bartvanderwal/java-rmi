@@ -31,10 +31,17 @@ Als HAN ICT student in *development* profiel heb je ook het concept *multithread
 
 Bij RPC gaat parallelisme over meerdere *processen* i.p.v. *meerdere threads*. Dit zijn OS processen. Dus bij RPC aanpak 'geef je meer uit handen' aan het OS. Maar het OS kan dit beter optimaliseren qua load op het systeem. Omdat het OS dichter bij de hardware zit dan jouw software. Het 'remote' stukje in RPC maakt het echter ook wel weer uitgebreider dan alleen maar 'processen op dezelfde computer' (wat wel IPC - [Inter Proces Communication](https://stackoverflow.com/questions/51452/best-practice-for-java-ipc) heet. Op IPC gaat dit artikel niet in, maar kijk bijvoorbeeld deze stackoverflow vraag voor een idee. Bij RPC moete processen ook op verschillende computers op een netwerk kunnen draaien, of zelfs op verchillende netwerken via het internet. 
 
-Volgens de 8e van de [12factor regel 'Concurrency'](https://12factor.net/concurrency) heeft de aanpak met aparte processen de voorkeur boven gebruik van Threads. Dit principe is kortgezegd: "Scale out via the process model". Deze 12factors zijn geschreven voor SAAS applicaties, binnen de moderne 'Cloud native' aanpak. Maar 'old-skool' Java (introductie in 1995) ondersteunt via Java RMI (wat er in ieder geval al sinds [2000](https://www.infoworld.com/article/2076234/get-smart-with-proxies-and-rmi.html)) dus al dit moderne principe uit het nieuwe cloud tijdperk. Er zijn ook modernere varianten, die we aan het eind behandelen. Maar we moeten nu eerst meer richting code! Kijk eerst nog even kort het algemene diagram van RMI in onderstaande figuur van Wikipedia. Merk op dat er tussen 'client' en 'server' nog wat magie zit met termen `stubs` en `skeletons`. Dit is de abstractie om 'remoting' mogelijk te maken. 
+Volgens de 8e van de [12factor regel 'Concurrency'](https://12factor.net/concurrency) heeft de aanpak met aparte processen de voorkeur boven gebruik van Threads. Dit principe is kortgezegd: "Scale out via the process model". Deze 12factors zijn geschreven voor SAAS applicaties, binnen de moderne 'Cloud native' aanpak. Maar 'old-skool' Java (introductie in 1995) ondersteunt via Java RMI (wat er in ieder geval al sinds [2000](https://www.infoworld.com/article/2076234/get-smart-with-proxies-and-rmi.html)) dus al dit moderne principe uit het nieuwe cloud tijdperk. Er zijn ook modernere varianten, die we aan het eind behandelen. Maar we moeten nu eerst meer richting code! Kijk eerst nog even kort het algemene diagram van RMI in onderstaande figuur van Wikipedia.
 
 <img src="plaatjes/600px-RMI-Stubs-Skeletons.svg.png">
-Bron: [Wikipedia, z.d.](https://en.wikipedia.org/wiki/Java_remote_method_invocation) meer op pagina over ['Distributed object communication'](https://en.wikipedia.org/wiki/Distributed_object_communication#Skeleton)
+
+*Figuur 1*: Overzicht van Java RMI: netwerk communicatie met *stub* voor client en *skeleton* aan server kant ([Wikipedia, z.d., RMI](https://en.wikipedia.org/wiki/Java_remote_method_invocation) en ['Distributed object communication'](https://en.wikipedia.org/wiki/Distributed_object_communication#Skeleton)
+
+Merk op dat er tussen 'client' en 'server' nog wat magie zit met termen `stubs` en `skeletons`. Dit is de abstractie om 'remoting' mogelijk te maken:
+- Een *stub* noem ik liever een *proxy*, er is wel degelijk functionaliteit, anders dan bij *stub* in unit testen.
+- Een *skeleton* is een oudere term uit programmeren, namelijk een opzet van code als pseudocode. Of enkel de methode header om te laten compileren, maar body met nog uit te werken code comments. Dus een skelet, waar nog vlees aan moet komen. Dit was veelal in een tijd voordat er (expliciete) interfaces en/of (OO) programmeertalen waren.
+
+Een stub focust op datastructuur parameters en return waarde, ofwel **hoe** methode aan te roepen. Een skeleton focust op functionaliteit: **wat** doet de methode.
 
 ## Yet another Java API? - RMI: Remote Method invocation
 
@@ -49,7 +56,7 @@ Het is een simpele 'Hello, World' applicatie, maar aan de klassenamen kun je zie
 
 <img src="out/plaatjes/rmi-simple/rmi-simple.png" alt="Simpel UML Sequence diagram of Java RMI" align="right" width="200">
 
-*Figuur 1*: Simpel sequence diagram van Java RMI
+*Figuur 2*: Simpel sequence diagram van Java RMI
 
 
 ## Prompt engineering om RMI op Code niveau te begrijpen
@@ -94,7 +101,7 @@ Bovenin het artikel zag je al een kort diagram, met grote `Network` in het midde
 
 <img src="out/plaatjes/rmi-simple/rmi-simple.png" alt="Simpel UML Sequence diagram of Java RMI">
 
-*Figuur 2*: Simpel klasse diagram van Java RMI, nogmaals
+*Figuur 3*: Simpel klasse diagram van Java RMI, nogmaals
 
 Dit diagram brengt het terug tot een enkele call, net alsof het een lokale call is. Dit was precies het idee van RPC. Weet je nog uit de Wikipedia definitie: "the programmer writes essentially the same code whether the subroutine is local to the executing program, or remote".
 
@@ -102,7 +109,7 @@ Zoveel simpelheid is aanleiding om een smiley toe te voegen in het standaard "He
 
 <img src="out/plaatjes/rmi-classes-simple/class.png" alt="Simpel Class Diagram of Java RMI">
 
-*Figuur 3*: Simpel klasse diagram van Java RMI
+*Figuur 4*: Simpel klasse diagram van Java RMI
 
 #### Middle man: remote call alsof deze lokaal is
 
@@ -114,13 +121,13 @@ Het volgende sequence diagram is een lichte uitbreiding hiervan, waarbij de <<rm
 
 <img src="out/plaatjes/rmi/sequence.png" alt="Sequence Diagram van Java RMI">
 
-*Figuur 4*: Uitgebreider Sequence Diagram van Java RMI
+*Figuur 5*: Uitgebreider Sequence Diagram van Java RMI
 
 Tot slot figuur 5 nog uitbreiding van sequence diagram .
 
 <img src="out/plaatjes/rmi-extended/sequence.png" alt="Uitgebreid sequence diagram van Java RMI">
 
-*Figuur 5*: Uitgebreid sequence Diagram van Java RMI
+*Figuur 6*: Uitgebreid sequence Diagram van Java RMI
 
 ## RPC: Leaky abstraction? #performanceLeak
 
@@ -128,7 +135,7 @@ Ook wil ik waarschuwen voor de 'leaky abstraction' van RPC. Dit is eigenlijk een
 
 ![image](https://user-images.githubusercontent.com/3029472/224537353-4a4b83ca-91fb-4bc6-ad62-700c4acdaf2e.png)
 
-*Figuur 5*: Leaking toilet tank ([Bron: Plumbing Southe Florida](https://www.sunshineplumbingofsouthflorida.com/plumbing-south-florida/leaking-toilet-tank/))
+*Figuur 7*: Leaking toilet tank ([Bron: Plumbing Southe Florida](https://www.sunshineplumbingofsouthflorida.com/plumbing-south-florida/leaking-toilet-tank/))
 
 Een letterlijke analogie is die van de toilet die na het doortrekken blijft doorlopen. Een toilet is geen ICT systeem, maar ouderwets mechanisch systeem. Maar heeft wel degelijk een abstractie (een facade) van de doortrekknop, -hendel of ouderwets touwtje. Als de toilet echter blijft doorlopen kom je echter dat er intern een heel systeem is, en moet je abstractie misschien even openbreken voor handmatige interventie (bij een toilet werkt aan de buitenkant hard op de spoelbak rammen nog wel eens; dit geeft bij computers minder succes).
 
@@ -149,7 +156,7 @@ Einstein: "Make everything as simple as possible. But not simpler."
 
 <img src="out/plaatjes/rmi-classes/class.png" alt="Uitgebreid Class Diagram van Java RMI voorbeeld">
 
-*Figuur 6*: Uitgebreid klasse diagram van Java RMI (te uitgebreid)
+*Figuur 8*: Uitgebreid klasse diagram van Java RMI (te uitgebreid)
 
 ## Next steps: RPC alternatieven en bredere context.
 
@@ -168,7 +175,7 @@ Een andere vergelijking en implementatie die je kunt bekijken is moderne RPC imp
 
 ![image](https://user-images.githubusercontent.com/3029472/224539618-85ccba87-2c1c-47dd-a0f4-97a4c29d1f3c.png)
 
-*Figuur 7*: Overzicht diagram voorbeeld microservice architectuur met gRPC ([Ruit, d van, 2021](https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md))
+*Figuur 9*: Overzicht diagram voorbeeld microservice architectuur met gRPC ([Ruit, d van, 2021](https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md))
     
 Deze microservice(s) demo laat ook mooi het principe zien van 'elke microservice heeft eigen opslag'. De applicatie heeft prima README's om het aan de praat te krijgen. Helaas heeft de applicatie wel wat last van 'software erosion' bij het aan de praat krijgen merkte ik (Heroku, 20). Dit door de snel bewegende onderdelen eronder. Via verdere containerizen van de apps zou dit op te lossen zijn. Dat was buiten scope van het onderzoek, maar zou een mooie oefening voor de lezer zijn, of opdracht in de DevOps minor.
     
