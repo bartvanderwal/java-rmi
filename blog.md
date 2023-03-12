@@ -21,6 +21,12 @@ Het RPC concept bestaat al sinds 1960, schrijft dezelfde pagina, maar het is wel
 
 Als developer ken je vast Java, ooit dé populairste Object Oriented (OO) taal, en momenteel nog 3e qua populariteit/aantal google zoekacties (TIOBE, 2023, van 20+ naar ca 13% gebruik in 20 jaar).
 
+>Me: "Write a joke about RPC"
+
+> ChatGPT: "Sure, here's a joke about RPC: 
+
+>"Why did the programmer refuse to use RPC for communication? ... Because they didn't want to risk a race condition with a snail!"
+
 Als HAN ICT student in *development* profiel heb je ook het concept *multithreading* gehad in Java, wat een alternatief is voor RPC om meerdere dingen tegelijk te doen (parallelisme). Als je werk verdeelt moet je de resultaten vaak aan het einde weer oprapen: synchroniseren, zowel in tijd als de dat (*concurrency control*). Voor een voorbeeld van Java Multithreading zie bijvoorbeeld mijn 'Hello World' implementatie van een 'parallele fizzbuzz' in [deze repo (van der Wal, 2023](https://github.com/bartvanderwal/dea-oefentoets-code2)).
 
 Bij RPC gaat parallelisme over meerdere *processen* i.p.v. *meerdere threads*. Dit zijn OS processen. Dus bij RPC aanpak 'geef je meer uit handen' aan het OS. Maar het OS kan dit beter optimaliseren qua load op het systeem. Omdat het OS dichter bij de hardware zit dan jouw software.
@@ -45,7 +51,11 @@ Het is een simpele 'Hello, World' applicatie, maar aan de klassenamen kun je zie
 
 ## Prompt engineering om RMI op Code niveau te begrijpen
 
-Maar we wilden naar code toe. ChatGPT veroorzaakte begin dit jaar een kleine revolutie, na al eerder GitHub copilot. Wellicht moeten we ons maar vast als 'Prompt Engineer' opstellen, dus laten we ChatGPT eens om hulp vragen.
+>Me: "Can you write a joke about java RMI?"
+
+>ChatGPT: "Sure, here's a Java RMI joke: Why did the Java RMI server take a break...? Because it needed to REST for a while!"
+
+We wilden naar code toe. ChatGPT veroorzaakte begin dit jaar een kleine revolutie, na al eerder GitHub copilot. Wellicht moeten we ons maar vast als 'Prompt Engineer' opstellen, dus laten we ChatGPT eens om hulp vragen.
 
 >How does java rmi work? Can you show a code example?
 

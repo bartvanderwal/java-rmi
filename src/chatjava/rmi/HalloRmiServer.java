@@ -2,12 +2,14 @@ package chatjava.rmi;
 
 import java.rmi.registry.Registry;
 import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 import chatjava.logging.Logger;
-        
+import chatjava.*;
+
 public class HalloRmiServer implements HalloRmiInterface {
         
     private String serverNaam;
@@ -22,10 +24,12 @@ public class HalloRmiServer implements HalloRmiInterface {
         this.serverNaam = serverNaam;
     }
 
+    @Override
     public String zegHallo() {
         return "Hallo, wereld! 😀";
     }
 
+    @Override
     public String meldAan(String naam) {
         String response = "Hallo " + naam + ", groeten terug van server '" + serverNaam + "'.\n";
         if (!abonnees.contains(naam)) {
@@ -42,14 +46,20 @@ public class HalloRmiServer implements HalloRmiInterface {
         // En op client weer te geven.
     }
 
-    public String abonneesAlsString() {
-        return String.join(", ", abonnees);
-    }
- 
-    public void chat(String bericht, String aanmeldNaam) {
+    @Override
+    public void chat(String bericht, String aanmeldNaam, ChatCallbackInterface callback) {
         var berichtRegel = aanmeldNaam + ": " + bericht;
         this.berichten.add(berichtRegel);
         System.out.println(berichtRegel);
+        try {
+            callback.chatCallback("Echo: " + berichtRegel);
+        } catch (RemoteException e) {
+            throw new ChatJavaException("Callback uit chat mislukt. Error: " + e.getMessage());
+        }
     }
 
+    private String abonneesAlsString() {
+        return String.join(", ", abonnees);
+    }
+ 
 }

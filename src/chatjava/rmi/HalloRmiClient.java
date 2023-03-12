@@ -7,7 +7,7 @@ import chatjava.client.*;
 
 import chatjava.ChatJavaException;
 
-public class HalloRmiClient {
+public class HalloRmiClient implements ChatCallbackInterface {
 
     private String host;
 
@@ -20,7 +20,6 @@ public class HalloRmiClient {
     private ClientLogger logger;
 
     private HalloRmiInterface proxy;
-
 
     public HalloRmiClient(String host) {
         this.host = host;
@@ -59,7 +58,7 @@ public class HalloRmiClient {
             bericht = io.vraagInput(false, "Tik een chat bericht en <enter> om te verzenden ('stop' om te stoppen).");
 
             // Verstuur bericht en handel response/callback af.
-            chat(bericht);
+            chat(bericht, this.aanmeldNaam);
         }
         logger.info("Chat client gestopt. Tot de volgende keer!");
     }
@@ -89,15 +88,25 @@ public class HalloRmiClient {
         }
     }
 
-    private void chat(String bericht) {
+    private void chat(String bericht, String aanmeldNaam) {
         if (this.aanmeldNaam == "") {
             throw new InvalidAanmeldException("Je verstuurt een bericht, maar bent nog niet aangemeld.");
         }
         try {
-            proxy.chat(bericht, this.aanmeldNaam);
+            proxy.chat(bericht, this.aanmeldNaam, (r) -> chatCallback(r));
         } catch (RemoteException e) {
             throw new ChatJavaException("Client - Exception bij versturen bericht:" + bericht, e);
         }
+        // try {
+        //     chatCallback.onCallback("Hallo terug!");
+        // } catch (RemoteException e) {
+        //     throw new ChatJavaException("Client - Exception bij uitvoeren callback:" + bericht, e);
+        // }
+    }
+
+    @Override
+    public void chatCallback(String result) throws RemoteException {
+        System.out.println("Resultaat: " + result);
     }
 
 }

@@ -55,6 +55,9 @@ lsof -i :1099
 kill <returnedPid>
 ```
 
+Voor remote server zou je TCP poort open moeten zetten. Dit lijkt NIET te werken op GitHub Codespace.
+Alleen maar HTTP of HTTPS. Maar wellicht [documentatie nog eens goed lezen](https://docs.github.com/en/codespaces/developing-in-codespaces/forwarding-ports-in-your-codespace)
+
 ### Genereren plantuml diagrammen
 
 Voor het tonen/genereren van de PlantUml diagrammen in VS Code run [plantuml  server in docker container](https://hub.docker.com/r/plantuml/plantuml-server) lokaal op *poort* `8081` met dit commando:
@@ -71,4 +74,5 @@ Mogelijke deelvragen:
 
 - Wat is RPC?
 - Hoe maak je een concrete implementatie van RPC in Java?
-- Welke varianten zijn er, en wat is huidige state-of-the-art of trend qua RPC?
+- Welke verdere alternatieven zijn er?
+- Wat is de huidige state-of-the-art of trend qua RPC?

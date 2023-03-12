@@ -11,6 +11,6 @@ public interface HalloRmiInterface extends Remote {
 
     String meldAan(String name) throws RemoteException;
 
-    void chat(String bericht, String aanmeldNaam) throws RemoteException;
+    void chat(String bericht, String aanmeldNaam, ChatCallbackInterface callback) throws RemoteException;
 }
 
