@@ -199,12 +199,15 @@ De optie om meerdere talen te ondersteunen geeft flexibiliteit, maar maakt gebru
 ## Bronnen
 
 - Wikipedia, 2022, *Remote Procedure Call.* Geraadpleegd op <https://en.wikipedia.org/wiki/Remote_procedure_call>
-- Wikipedia, z.d. Geraadpleegd op <https://en.wikipedia.org/wiki/Java_remote_method_invocation>
-- Wikipedia, z.d. Geraadpleegd op <https://en.wikipedia.org/wiki/Java_remote_method_invocation>
+- Wikipedia, z.d. *Java Remote Methode Invocation.* Geraadpleegd op <https://en.wikipedia.org/wiki/Java_remote_method_invocation>
+- Wikipedia, z.d. *Distributed object communication.* Geraadpleegd op <https://en.wikipedia.org/wiki/Distributed_object_communication#Skeleton>
+- Wikipedia, z.d. *Clarke's three laws.* Geraadpleegd op <https://en.wikipedia.org/wiki/Clarke%27s_three_laws)>
 - Salvia, C., Reinhardt, D. 2010 *Method vs Function vs Procedure.* Geraadpleegd op <https://softwareengineering.stackexchange.com/questions/20909/method-vs-function-vs-procedure>
+- Stackoverflow, 2008. *Best practice for Java IPC* Geraadpleegd op https://stackoverflow.com/questions/51452/best-practice-for-java-ipc
 - Oracle technotes, 2018. *Getting Started Using Java RMI*, Geraadpleegd op <https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/hello/hello-world.html>
 - Quora, 2018, *... Dumbledore ... incantations.* (a.k.a. invocation), Gevonden op <https://www.quora.com/Hogwart-students-are-taught-wordless-magic-in-the-6th-year-so-why-does-Dumbledore-still-cast-spells-with-incantations>
 - Tiobe, 2023. Geraadpleegd op 8-3-2023 op <https://www.tiobe.com/tiobe-index/>
+- ChatGPT, 2023. 
 - PlantUML (z.d.) *Sequence Diagram.* PlantUML, geraadpleegd op <https://plantuml.com/sequence-diagram>
 - Wikipedia. z.d. *Clarke's three laws.* Geraadpleegd op <https://en.wikipedia.org/wiki/Clarke%27s_three_laws>
 - Daniel van de Ruit, 8-10-2021. *gRPC binnen een Microservice Architectuur.* Geraadpleegd op <https://medium.com/@dm.vanderuit/grpc-onderzoek-readme-md-at-35a740eba31147ee5bfc01d5230a2d10ee4843b3-dmvanderuit-grpc-onderzoek-677b22010f43>
