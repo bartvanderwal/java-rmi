@@ -29,9 +29,9 @@ Als developer ken je vast Java, ooit dé populairste Object Oriented (OO) taal, 
 
 Als HAN ICT student in *development* profiel heb je ook het concept *multithreading* gehad in Java, wat een alternatief is voor RPC om meerdere dingen tegelijk te doen (parallelisme). Als je werk verdeelt moet je de resultaten vaak aan het einde weer oprapen: synchroniseren, zowel in tijd als de dat (*concurrency control*). Voor een voorbeeld van Java Multithreading zie bijvoorbeeld mijn 'Hello World' implementatie van een 'parallele fizzbuzz' in [deze repo (van der Wal, 2023](https://github.com/bartvanderwal/dea-oefentoets-code2)).
 
-Bij RPC gaat parallelisme over meerdere *processen* i.p.v. *meerdere threads*. Dit zijn OS processen. Dus bij RPC aanpak 'geef je meer uit handen' aan het OS. Maar het OS kan dit beter optimaliseren qua load op het systeem. Omdat het OS dichter bij de hardware zit dan jouw software.
+Bij RPC gaat parallelisme over meerdere *processen* i.p.v. *meerdere threads*. Dit zijn OS processen. Dus bij RPC aanpak 'geef je meer uit handen' aan het OS. Maar het OS kan dit beter optimaliseren qua load op het systeem. Omdat het OS dichter bij de hardware zit dan jouw software. Het 'remote' stukje in RPC maakt het echter ook wel weer uitgebreider dan alleen maar 'processen op dezelfde computer' (wat wel IPC - [Inter Proces Communication](https://stackoverflow.com/questions/51452/best-practice-for-java-ipc) heet. Op IPC gaat dit artikel niet in, maar kijk bijvoorbeeld deze stackoverflow vraag voor een idee. Bij RPC moete processen ook op verschillende computers op een netwerk kunnen draaien, of zelfs op verchillende netwerken via het internet. 
 
-Volgens de 8e van de [12factor regel 'Concurrency'](https://12factor.net/concurrency) heeft deze aanpak de voorkeur. Dit principe is: "Scale out via the process model". Dit geldt in ieder geval voor SAAS applicaties, binnen de moderne 'Cloud native' aanpak. Okee, dus bevat old-skool Java (introductie in 1995) met java RMI wat er al vroegtijdig inzat (ik vind [artikel uit 2000](https://www.infoworld.com/article/2076234/get-smart-with-proxies-and-rmi.html)) op infoworld.com, dan zo'n modern krachtig mechanisme uit het nieuwe cloud tijdperk? Het korte antwoord is: Ja, en nee. Meer volgt, we moeten wel wat met de `stubs` en `skeletons` die RMI gebruikt; zie onderstaande figuur Maar we moeten nu eerst meer richting code!
+Volgens de 8e van de [12factor regel 'Concurrency'](https://12factor.net/concurrency) heeft de aanpak met aparte processen de voorkeur boven gebruik van Threads. Dit principe is kortgezegd: "Scale out via the process model". Deze 12factors zijn geschreven voor SAAS applicaties, binnen de moderne 'Cloud native' aanpak. Maar 'old-skool' Java (introductie in 1995) ondersteunt via Java RMI (wat er in ieder geval al sinds [2000](https://www.infoworld.com/article/2076234/get-smart-with-proxies-and-rmi.html)) dus al dit moderne principe uit het nieuwe cloud tijdperk. Er zijn ook modernere varianten, die we aan het eind behandelen. Maar we moeten nu eerst meer richting code! Kijk eerst nog even kort het algemene diagram van RMI in onderstaande figuur van Wikipedia. Merk op dat er tussen 'client' en 'server' nog wat magie zit met termen `stubs` en `skeletons`. Dit is de abstractie om 'remoting' mogelijk te maken. 
 
 <img src="plaatjes/600px-RMI-Stubs-Skeletons.svg.png">
 Bron: [Wikipedia, z.d.](https://en.wikipedia.org/wiki/Java_remote_method_invocation) meer op pagina over ['Distributed object communication'](https://en.wikipedia.org/wiki/Distributed_object_communication#Skeleton)
@@ -115,16 +115,21 @@ Tot slot het meeste detail in dit laatste sequence diagram .
 <img src="out/plaatjes/rmi-extended/sequence.png" alt="Uitgebreid sequence diagram van Java RMI">
 Figuur: Uitgebreid sequence Diagram van Java RMI
 
-## RPC: Een leaky abstraction?
+## RPC: Leaky abstraction? #performanceLeak
 
-Ook wil ik waarschuwen voor de 'leaky abstraction' van RPC. Die eigenlijk een logisch gevolg is van het concept dat RPC is. Namelijk het idee 'dat het niet uitmaakt' of 'niet uit moet maken' je een methode of procedure lokaal aanroept of verderop. Qua developen zag je al dat er toch de nodige constructies en boiler plate code komt kijken, alsmede extra tools als de rmiregistry, en evt. code generatie van de `rmic` om een simpele hello world te doen'. Maar ook qua performance moet je wel degelijk nadenken.
+Ook wil ik waarschuwen voor de 'leaky abstraction' van RPC. Dit is eigenlijk een logisch gevolg is van het concept van RPC. Namelijk 'dat het niet uitmaakt' (of 'niet uit zou moeten maken') of je een methode lokaal aanroept of van afstand. Qua developen zag je al dat er toch de nodige constructies en boiler plate code komt kijken, alsmede extra tools als de rmiregistry, en evt. code generatie van de `rmic` om een simpele hello world te doen'. Maar ook qua performance moet je wel degelijk nadenken. Je hebt dus een performance lek in je applicatie, dat je wel degelijk gaat merken, als je zomaar allerlei calls remote gaat doen i.p.v. lokaal omdat ''dit uitkomt' . Kortgezegd kun je dit vergelijken met wat je al in 1e jaar bij WebTech leerde. Je moet geen Database calls moet doen binnen een for loop ('efficiente queries').
 
-Martin Fowler heeft hier veel beter over nagedacht en geschreven dan ik zelf, dus ik verwijs graag naar zijn artikel ['Microservices and the First Law of Distributed Objects'](https://martinfowler.com/articles/distributed-objects-microservices.html
+![image](https://user-images.githubusercontent.com/3029472/224537353-4a4b83ca-91fb-4bc6-ad62-700c4acdaf2e.png)
+Figuur 1: Leaking toilet tank ([Bron: Plumbing Southe Florida](https://www.sunshineplumbingofsouthflorida.com/plumbing-south-florida/leaking-toilet-tank/))
+
+Een letterlijke analogie is die van de toilet die na het doortrekken blijft doorlopen. Een toilet is geen ICT systeem, maar ouderwets mechanisch systeem. Maar heeft wel degelijk een abstractie (een facade) van de doortrekknop, -hendel of ouderwets touwtje. Als de toilet echter blijft doorlopen kom je echter dat er intern een heel systeem is, en moet je abstractie misschien even openbreken voor handmatige interventie (bij een toilet werkt aan de buitenkant hard op de spoelbak rammen nog wel eens; dit geeft bij computers minder succes).
+
+Martin Fowler heeft hier veel beter over nagedacht en geschreven dan ik zelf. Ik verwijs graag naar zijn artikel ['Microservices and the First Law of Distributed Objects'](https://martinfowler.com/articles/distributed-objects-microservices.html
 ). Het artikel is uit 2014 al weer en de 'law' zelf schreef/bedacht hij al in zijn veel 1006 boek 'Patterns of Enterprise Application Development' die als verplicht studiemateriaal binnen HAN ICT geldt (bij course OOSE DEA, optioneel materiaal SWA). Toch is het wellicht verloren gegaan. Dus kort: De 'First law of distributed objects is: 'Don't distribute your objects'.
 
-Ja, laat even inzinken. Dit lijkt een beetje op 'die mop over de Titanic'... (die kwam niet, ([Trouw, 1998[(https://www.trouw.nl/nieuws/ken-je-die-mop-van-de-titanic-die-kwam-niet~b38d38c4/)]) schoorsteenvege.
+Ja, laat even inzinken. Dit lijkt een beetje op 'die mop over de Titanic'... (die kwam niet, ([Trouw, 1998[(https://www.trouw.nl/nieuws/ken-je-die-mop-van-de-titanic-die-kwam-niet~b38d38c4/)]).
 
-Wat Fowler probeert aan te geven is dat je moet nadenken over kosten van transport van veel data over netwerk over langere afstand. En dat je het distribueren dus in de eerste plaats NIET moet.
+Wat Fowler probeert aan te geven is dat je moet nadenken over kosten van transport van veel data over netwerk over langere afstand. En dat je het distribueren waar mogelijk niet moet doen. En als je het doet, moet je veel data in één keer oversturen (coarse grained) en de detailprocessing intern op de client of server doen (fine grained).
 
 <img src="out/plaatjes/rmi-extended/sequence.png" alt="Uitgebreid sequence diagram van Java RMI">
 Figuur: Uitgebreid sequence Diagram van Java RMI
@@ -141,7 +146,7 @@ Einstein: "Make everything as simple as possible. But not simpler."
 
 ## Next steps
 
->"Any sufficiently analyzed Magic is indistinguishable from technology"
+>"Any sufficiently analyzed magic is indistinguishable from technology." (TV Tropes, z.d.)
 
 Deze code gaf je hopelijk een indicatie van wat RPC is en hoe dit toe te passen. Zodat de magie nu van RPC af is (bron quote: Tv tropes, Clarkes third Law (TvTropes, z.d.) [https://tvtropes.org/pmwiki/pmwiki.php/Main/ClarkesThirdLaw]) De volgende stap is al snel naar tweeweg communicatie, dus beide partijen zijn zowel client als server. Een alternatief is om de RPC methode een callback parameter te geven. Dit is een parameter die geen waarde is, maar zelf een functie. De server roept deze methode dan aan op de client.
 
@@ -149,6 +154,29 @@ Voor het beter begrijpen van RPC, Naast concrete implementatie in Java, en verge
 
 Een andere vergelijking en implementatie die je kunt bekijken is moderne RPC implementatie van Google, namelijk gRPC. Hoewel ze zelf beweren dat de `g` hierin NIET voor Google staat (maar zeggen ook niet waar dan wel voor). Hiervoor verwijs ik graag naar het code en het artikel van mijn oud minor student Daniel van de Ruit hierover. Hier als idee het schema van een Polyglot Microsevice architectuur met een .NET5 applicatie en een Kotlin applicatie.
 
+![image](https://user-images.githubusercontent.com/3029472/224539618-85ccba87-2c1c-47dd-a0f4-97a4c29d1f3c.png)
+
+Bron: Overzicht diagram voorbeeld microservice architectuur met gRPC ([Ruit, d van, 2021](https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md))
+    
+Deze microservice(s) demo laat ook mooi het principe zien van 'elke microservice heeft eigen opslag'. De applicatie heeft prima README's om het aan de praat te krijgen. Helaas heeft de applicatie wel wat last van 'software erosion' bij het aan de praat krijgen merkte ik (Heroku, 20). Dit door de snel bewegende onderdelen eronder. Via verdere containerizen van de apps zou dit op te lossen zijn. Dat was buiten scope van het onderzoek, maar zou een mooie oefening voor de lezer zijn, of opdracht in de DevOps minor.
+
+| Feature	             | Java RMI                  | Multithreading          | gRPC	                    | HTTP APIs with JSON           | SOAP |
+| -----------------------| --------------------------|-------------------------|----------------------------|-------------------------------|------|
+| Contract	             | extend `Remote`           | extend `Runnable`       | Required (.proto)          | Optional (OpenAPI)            | WSDL |
+| Protocol	             | TCP                       | OO Shared Object in mem | HTTP/2                     | HTTP                          | ?    |
+| Payload                | Dynamic stubs, skeletons  | Via heap, in mem.       | Protobuf (small, binary)   | JSON (large, human readable)  | ?    |
+| Prescriptiveness       | Typed OO                  | Typed OO                | Strict specification       | Loose. Any HTTP is valid.     | ?    |
+| Streaming	             | ?                         | Ja                      | Client, server, bi-direct.	| Client, server                | ?    |
+| Browser support        | No, build Ajax/websockets | Zie RMI                 | No (requires grpc-web)	    | Yes                           | ?    |
+| Security	Transport    | Java Socket factory *     |                         | (TLS)                      | Transport (TLS)               | ?    |
+| Client code-generation | Use shared Remote interf. |                         | Yes                        | OpenAPI + third-party tooling | ?    |
+
+*Tabel 1: Aspecten van verschillende stylen van Inter proces communicatie
+
+Bron: Uitgebreide tabl, gebaseerd op die van [Microsoft over gRPC vs. RESTful HTTP](https://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0)
+
+* RMI is niet secury out of the box, zie [socketfactory, SSLInfo] op oracle.com](https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/socketfactory/SSLInfo.html]
+    
 ## Bronnen
 
 - Wikipedia, 2022, *Remote Procedure Call.* Geraadpleegd op <https://en.wikipedia.org/wiki/Remote_procedure_call>
@@ -160,7 +188,12 @@ Een andere vergelijking en implementatie die je kunt bekijken is moderne RPC imp
 - Tiobe, 2023. Geraadpleegd op 8-3-2023 op <https://www.tiobe.com/tiobe-index/>
 - PlantUML (z.d.) *Sequence Diagram.* PlantUML, geraadpleegd op <https://plantuml.com/sequence-diagram>
 - Wikipedia. z.d. *Clarke's three laws.* Geraadpleegd op <https://en.wikipedia.org/wiki/Clarke%27s_three_laws>
-- 
+- Daniel van de Ruit, 8-10-2021. *gRPC binnen een Microservice Architectuur.* Geraadpleegd op <https://medium.com/@dm.vanderuit/grpc-onderzoek-readme-md-at-35a740eba31147ee5bfc01d5230a2d10ee4843b3-dmvanderuit-grpc-onderzoek-677b22010f43>
+- Daniel van de Ruit - 
+ <https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md>
+- Microsoft. z.d. *Compare gRPC services with HTTP APIs*. Geraadpleegd ophttps://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0
+- Heroku DevCenter, z.d. *Erosian resistance* Geraadpleegd op <https://devcenter.heroku.com/articles/erosion-resistance>
 
-*Deze bronnen zijn begin maart 2023 geraadpleegd, tenzij het er anders bij staat, maar anders vermelden we datum niet, zoals APA eigenlijk vereist.
+    
+*Al deze bronnen zijn begin maart 2023 geraadpleegd, tenzij het er anders bij staat. Daar is datum niet vermeld, zoals APA eigenlijk vereist. Bij afstuderen en andere langer lopende (onderzoeks) opdrachten zal raadpleeg datum meer varieren, vandaar deze APA eis.
 
