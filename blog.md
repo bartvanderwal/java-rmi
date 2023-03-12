@@ -198,23 +198,22 @@ De optie om meerdere talen te ondersteunen geeft flexibiliteit, maar maakt gebru
     
 ## Bronnen
 
+- Brouillette, L. 2018, *... Dumbledore ... incantations.* (a.k.a. invocation), Quora. Gevonden op <https://www.quora.com/Hogwart-students-are-taught-wordless-magic-in-the-6th-year-so-why-does-Dumbledore-still-cast-spells-with-incantations>
 - ChatGPT, 2023. Doet niet aan (goede) bronvermelding, dus dan moeten wij mensen het maar doen. Geraadpleegd op <https://chat.openai.com/chat/>
-- Wikipedia, 2022, *Remote Procedure Call.* Geraadpleegd op <https://en.wikipedia.org/wiki/Remote_procedure_call>
-- Wikipedia, z.d. *Java Remote Methode Invocation.* Geraadpleegd op <https://en.wikipedia.org/wiki/Java_remote_method_invocation>
-- Wikipedia, z.d. *Distributed object communication.* Geraadpleegd op <https://en.wikipedia.org/wiki/Distributed_object_communication#Skeleton>
-- Salvia, C., Reinhardt, D. 2010 *Method vs Function vs Procedure.* Geraadpleegd op <https://softwareengineering.stackexchange.com/questions/20909/method-vs-function-vs-procedure>
-- Stackoverflow, 2008. *Best practice for Java IPC* Geraadpleegd op https://stackoverflow.com/questions/51452/best-practice-for-java-ipc
-- Oracle technotes, 2018. *Getting Started Using Java RMI*, Geraadpleegd op <https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/hello/hello-world.html>
-- Quora, 2018, *... Dumbledore ... incantations.* (a.k.a. invocation), Gevonden op <https://www.quora.com/Hogwart-students-are-taught-wordless-magic-in-the-6th-year-so-why-does-Dumbledore-still-cast-spells-with-incantations>
-- Tiobe, 2023. Geraadpleegd op 8-3-2023 op <https://www.tiobe.com/tiobe-index/>
-- PlantUML (z.d.) *Sequence Diagram.* PlantUML, geraadpleegd op <https://plantuml.com/sequence-diagram>
-- Wikipedia. z.d. *Clarke's three laws.* Geraadpleegd op <https://en.wikipedia.org/wiki/Clarke%27s_three_laws>
-- TV Tropes, z.d. *Clarke's third law.* Geraadpleegd op <https://tvtropes.org/pmwiki/pmwiki.php/Main/ClarkesThirdLaw>
 - Daniel van de Ruit, 8-10-2021. *gRPC binnen een Microservice Architectuur.* Geraadpleegd op <https://medium.com/@dm.vanderuit/grpc-onderzoek-readme-md-at-35a740eba31147ee5bfc01d5230a2d10ee4843b3-dmvanderuit-grpc-onderzoek-677b22010f43>
 - Daniel van de Ruit - oktober 2021 *Onderzoeksplan gRPC*. Geraadpleegd op <https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md>
-- Microsoft. z.d. *Compare gRPC services with HTTP APIs*. Geraadpleegd ophttps://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0
-- Heroku DevCenter, z.d. *Erosian resistance* Geraadpleegd op <https://devcenter.heroku.com/articles/erosion-resistance>
 - Fiser, D. (17-8-2020, *How Unsecure gRPC Implementations Can Compromise APIs.* Trend Micro. Geraadpleegd op https://www.trendmicro.com/en_us/research/20/h/how-unsecure-grpc-implementations-can-compromise-apis.html
+- Heroku DevCenter, z.d. *Erosian resistance* Geraadpleegd op <https://devcenter.heroku.com/articles/erosion-resistance>
+- Oracle technotes, 2018. *Getting Started Using Java RMI*, Geraadpleegd op <https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/hello/hello-world.html>
+- PlantUML (z.d.) *Sequence Diagram.* PlantUML, geraadpleegd op <https://plantuml.com/sequence-diagram>
+- Salvia, C., Reinhardt, D. 2010 *Method vs Function vs Procedure.* Geraadpleegd op <https://softwareengineering.stackexchange.com/questions/20909/method-vs-function-vs-procedure>
+- Stackoverflow, 2008. *Best practice for Java IPC* Geraadpleegd op https://stackoverflow.com/questions/51452/best-practice-for-java-ipc
+- Tiobe, 2023. Geraadpleegd op 8-3-2023 op <https://www.tiobe.com/tiobe-index/>
+- TV Tropes, z.d. *Clarke's third law.* Geraadpleegd op <https://tvtropes.org/pmwiki/pmwiki.php/Main/ClarkesThirdLaw>
+- Microsoft. z.d. *Compare gRPC services with HTTP APIs*. Geraadpleegd ophttps://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0
+- Wikipedia. z.d. *Clarke's three laws.* Geraadpleegd op <https://en.wikipedia.org/wiki/Clarke%27s_three_laws>
+- Wikipedia, z.d. *Distributed object communication.* Geraadpleegd op <https://en.wikipedia.org/wiki/Distributed_object_communication#Skeleton>
+- Wikipedia, z.d. *Java Remote Methode Invocation.* Geraadpleegd op <https://en.wikipedia.org/wiki/Java_remote_method_invocation>
+- Wikipedia, 2022, *Remote Procedure Call.* Geraadpleegd op <https://en.wikipedia.org/wiki/Remote_procedure_call>
     
 *Al deze bronnen zijn begin maart 2023 geraadpleegd, tenzij het er anders bij staat. Daar is datum niet vermeld, zoals APA eigenlijk vereist. Bij afstuderen en andere langer lopende (onderzoeks) opdrachten zal raadpleeg datum meer varieren, vandaar deze APA eis.
-
