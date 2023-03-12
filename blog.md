@@ -49,13 +49,12 @@ Het is een simpele 'Hello, World' applicatie, maar aan de klassenamen kun je zie
 
 <img src="out/plaatjes/rmi-simple/rmi-simple.png" alt="Simpel UML Sequence diagram of Java RMI" align="right" width="200">
 
+*Figuur 1*: Simpel sequence diagram van Java RMI
+
+
 ## Prompt engineering om RMI op Code niveau te begrijpen
 
->Me: "Can you write a joke about java RMI?"
-
->ChatGPT: "Sure, here's a Java RMI joke: Why did the Java RMI server take a break...? Because it needed to REST for a while!"
-
-We wilden naar code toe. ChatGPT veroorzaakte begin dit jaar een kleine revolutie, na al eerder GitHub copilot. Wellicht moeten we ons maar vast als 'Prompt Engineer' opstellen, dus laten we ChatGPT eens om hulp vragen.
+We willen naar code toe. ChatGPT veroorzaakte begin dit jaar een kleine revolutie, na al eerder GitHub copilot. Wellicht moeten we ons maar vast als 'Prompt Engineer' opstellen, dus laten we ChatGPT eens om hulp vragen.
 
 >How does java rmi work? Can you show a code example?
 
@@ -91,15 +90,19 @@ Deze zijn gemaakt met plantUML documentatie (PlantUML, z.d.).
 
 Bovenin het artikel zag je al een kort diagram, met grote `Network` in het midden en `client` en `server` links en rechts, en ook twee wellicht minder bekende term `stub` en `skeleton`. Binnen OO gebruiken we voor wat meer detail over volgorde, zonder direct al het detail van de code wel eens... een UML sequence diagram.
 
-#### Simpel: Call alsof lokaal is
+#### Simpel: Remote call alsof lokaal is?
 
 <img src="out/plaatjes/rmi-simple/rmi-simple.png" alt="Simpel UML Sequence diagram of Java RMI">
+
+*Figuur 2*: Simpel klasse diagram van Java RMI, nogmaals
 
 Dit diagram brengt het terug tot een enkele call, net alsof het een lokale call is. Dit was precies het idee van RPC. Weet je nog uit de Wikipedia definitie: "the programmer writes essentially the same code whether the subroutine is local to the executing program, or remote".
 
 Zoveel simpelheid is aanleiding om een smiley toe te voegen in het standaard "Hello, World!" bericht. En zelfs PlantUML ondersteunt dit. Het probleem is echter dat in de code GEEN directe relatie is. Wel een indirecte. Volgende sectie legt dit uit. Het artikel eindigt met een meer gedetailleerd klassendiagram, die het core idee van RPC (een 'remote call' echter meer obfusceert dan duidelijk maakt.
 
 <img src="out/plaatjes/rmi-classes-simple/class.png" alt="Simpel Class Diagram of Java RMI">
+
+*Figuur 3*: Simpel klasse diagram van Java RMI
 
 #### Middle man: remote call alsof deze lokaal is
 
@@ -108,19 +111,24 @@ In de code zie je echter toch wel een heel ander verhaal met de nodige boiler pl
 En de `HelloRmiInterface` die in de code zit
 
 Het volgende sequence diagram is een lichte uitbreiding hiervan, waarbij de <<rmi>> steroetype is uitgewerkt ieder geval met een 'stub' als middelman tussen client en server.
-<img src="out/plaatjes/rmi/sequence.png" alt="Sequence Diagram van Java RMI">
-Figuur: Sequence Diagram van Java RMI
 
-Tot slot het meeste detail in dit laatste sequence diagram .
+<img src="out/plaatjes/rmi/sequence.png" alt="Sequence Diagram van Java RMI">
+
+*Figuur 4*: Uitgebreider Sequence Diagram van Java RMI
+
+Tot slot figuur 5 nog uitbreiding van sequence diagram .
+
 <img src="out/plaatjes/rmi-extended/sequence.png" alt="Uitgebreid sequence diagram van Java RMI">
-Figuur: Uitgebreid sequence Diagram van Java RMI
+
+*Figuur 5*: Uitgebreid sequence Diagram van Java RMI
 
 ## RPC: Leaky abstraction? #performanceLeak
 
 Ook wil ik waarschuwen voor de 'leaky abstraction' van RPC. Dit is eigenlijk een logisch gevolg is van het concept van RPC. Namelijk 'dat het niet uitmaakt' (of 'niet uit zou moeten maken') of je een methode lokaal aanroept of van afstand. Qua developen zag je al dat er toch de nodige constructies en boiler plate code komt kijken, alsmede extra tools als de rmiregistry, en evt. code generatie van de `rmic` om een simpele hello world te doen'. Maar ook qua performance moet je wel degelijk nadenken. Je hebt dus een performance lek in je applicatie, dat je wel degelijk gaat merken, als je zomaar allerlei calls remote gaat doen i.p.v. lokaal omdat ''dit uitkomt' . Kortgezegd kun je dit vergelijken met wat je al in 1e jaar bij WebTech leerde. Je moet geen Database calls moet doen binnen een for loop ('efficiente queries').
 
 ![image](https://user-images.githubusercontent.com/3029472/224537353-4a4b83ca-91fb-4bc6-ad62-700c4acdaf2e.png)
-Figuur 1: Leaking toilet tank ([Bron: Plumbing Southe Florida](https://www.sunshineplumbingofsouthflorida.com/plumbing-south-florida/leaking-toilet-tank/))
+
+*Figuur 5*: Leaking toilet tank ([Bron: Plumbing Southe Florida](https://www.sunshineplumbingofsouthflorida.com/plumbing-south-florida/leaking-toilet-tank/))
 
 Een letterlijke analogie is die van de toilet die na het doortrekken blijft doorlopen. Een toilet is geen ICT systeem, maar ouderwets mechanisch systeem. Maar heeft wel degelijk een abstractie (een facade) van de doortrekknop, -hendel of ouderwets touwtje. Als de toilet echter blijft doorlopen kom je echter dat er intern een heel systeem is, en moet je abstractie misschien even openbreken voor handmatige interventie (bij een toilet werkt aan de buitenkant hard op de spoelbak rammen nog wel eens; dit geeft bij computers minder succes).
 
@@ -130,9 +138,6 @@ Martin Fowler heeft hier veel beter over nagedacht en geschreven dan ik zelf. Ik
 Ja, laat even inzinken. Dit lijkt een beetje op 'die mop over de Titanic'... (die kwam niet, ([Trouw, 1998[(https://www.trouw.nl/nieuws/ken-je-die-mop-van-de-titanic-die-kwam-niet~b38d38c4/)]).
 
 Wat Fowler probeert aan te geven is dat je moet nadenken over kosten van transport van veel data over netwerk over langere afstand. En dat je het distribueren waar mogelijk niet moet doen. En als je het doet, moet je veel data in één keer oversturen (coarse grained) en de detailprocessing intern op de client of server doen (fine grained).
-
-<img src="out/plaatjes/rmi-extended/sequence.png" alt="Uitgebreid sequence diagram van Java RMI">
-Figuur: Uitgebreid sequence Diagram van Java RMI
 
 ## Volledig klassendiagram: toch liever overzichtelijk dan volledig
 
@@ -144,11 +149,18 @@ Einstein: "Make everything as simple as possible. But not simpler."
 
 <img src="out/plaatjes/rmi-classes/class.png" alt="Uitgebreid Class Diagram van Java RMI voorbeeld">
 
+*Figuur 6*: Uitgebreid klasse diagram van Java RMI (te uitgebreid)
+
 ## Next steps
 
 >"Any sufficiently analyzed magic is indistinguishable from technology." (TV Tropes, z.d.)
 
 Deze code gaf je hopelijk een indicatie van wat RPC is en hoe dit toe te passen. Zodat de magie nu van RPC af is (bron quote: Tv tropes, Clarkes third Law (TvTropes, z.d.) [https://tvtropes.org/pmwiki/pmwiki.php/Main/ClarkesThirdLaw]) De volgende stap is al snel naar tweeweg communicatie, dus beide partijen zijn zowel client als server. Een alternatief is om de RPC methode een callback parameter te geven. Dit is een parameter die geen waarde is, maar zelf een functie. De server roept deze methode dan aan op de client.
+
+>Me: "Can you write a joke about java RMI?"
+
+>ChatGPT: "Sure, here's a Java RMI joke: Why did the Java RMI server take a break...?
+>Because it needed to REST for a while!"
 
 Voor het beter begrijpen van RPC, Naast concrete implementatie in Java, en vergelijken RPC vs. multithreading, kun je RPC ook beter begrijpen door het te vergelijken met REST API die je waarschijnlijk al beter kent. En ook veel populairder is. Een voordeel verschil is wel dat REST API's vaak via HTTP praten, en RMI bijvoorbeeld al op TCP niveau werkt, dus laagje lager, dus performanter.
 
@@ -156,7 +168,7 @@ Een andere vergelijking en implementatie die je kunt bekijken is moderne RPC imp
 
 ![image](https://user-images.githubusercontent.com/3029472/224539618-85ccba87-2c1c-47dd-a0f4-97a4c29d1f3c.png)
 
-Bron: Overzicht diagram voorbeeld microservice architectuur met gRPC ([Ruit, d van, 2021](https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md))
+*Figuur 7*: Overzicht diagram voorbeeld microservice architectuur met gRPC ([Ruit, d van, 2021](https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md))
     
 Deze microservice(s) demo laat ook mooi het principe zien van 'elke microservice heeft eigen opslag'. De applicatie heeft prima README's om het aan de praat te krijgen. Helaas heeft de applicatie wel wat last van 'software erosion' bij het aan de praat krijgen merkte ik (Heroku, 20). Dit door de snel bewegende onderdelen eronder. Via verdere containerizen van de apps zou dit op te lossen zijn. Dat was buiten scope van het onderzoek, maar zou een mooie oefening voor de lezer zijn, of opdracht in de DevOps minor.
 
