@@ -168,14 +168,12 @@ Deze microservice(s) demo laat ook mooi het principe zien van 'elke microservice
 | Prescriptiveness       | Typed OO                  | Typed OO                | Strict specification       | Loose. Any HTTP is valid.     | ?    |
 | Streaming	             | ?                         | Ja                      | Client, server, bi-direct.	| Client, server                | ?    |
 | Browser support        | No, build Ajax/websockets | Zie RMI                 | No (requires grpc-web)	    | Yes                           | ?    |
-| Security	Transport    | Java Socket factory *     |                         | (TLS)                      | Transport (TLS)               | ?    |
+| Security	Transport    | Java Socket fact.<sup>*</sup> |                     | (TLS)                      | Transport (TLS)               | ?    |
 | Client code-generation | Use shared Remote interf. |                         | Yes                        | OpenAPI + third-party tooling | ?    |
 
-*Tabel 1: Aspecten van verschillende stylen van Inter proces communicatie
+*Tabel 1*: Aspecten van verschillende stylen van Inter proces communicatie, tabel gebaseerd op die van Microsoft ([z.d.](https://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0)).
 
-Bron: Uitgebreide tabl, gebaseerd op die van [Microsoft over gRPC vs. RESTful HTTP](https://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0)
-
-* RMI is niet secury out of the box, zie [socketfactory, SSLInfo] op oracle.com](https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/socketfactory/SSLInfo.html]
+<sup>*</sup> RMI is niet secure out of the box, maar dit moet extra toegevoegd via SSL en een zogenaamde Java 'securicy policy' zie [socketfactory, SSLInfo op oracle.com](https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/socketfactory/SSLInfo.html).
     
 ## Bronnen
 
@@ -193,7 +191,6 @@ Bron: Uitgebreide tabl, gebaseerd op die van [Microsoft over gRPC vs. RESTful HT
  <https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md>
 - Microsoft. z.d. *Compare gRPC services with HTTP APIs*. Geraadpleegd ophttps://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0
 - Heroku DevCenter, z.d. *Erosian resistance* Geraadpleegd op <https://devcenter.heroku.com/articles/erosion-resistance>
-
-    
+  
 *Al deze bronnen zijn begin maart 2023 geraadpleegd, tenzij het er anders bij staat. Daar is datum niet vermeld, zoals APA eigenlijk vereist. Bij afstuderen en andere langer lopende (onderzoeks) opdrachten zal raadpleeg datum meer varieren, vandaar deze APA eis.
 
