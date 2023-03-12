@@ -4,7 +4,7 @@
     <!-- <br clear="all"/> -->
     <!-- <figcaption><em>Figuur 1</em>: Dumbledore doet een<br/>'invocatie' op afstand (Quora, 2018)</figcaption> -->
 
-*Naar aanleiding van een gepland gastcolle in maart 2023 bij de course SWA in het semester Advanced Software Development, ter promotie van de [minor DevOps](https://minor-devops.ams3.digitaloceanspaces.com/index.html), die start in september 2023 aan de HAN.*
+*Deze blog schreef naar aanleiding van, en als ondersteuning bij wat toegepast onderzoek naar RPC dat ik deed voor een geplande gastles in maart 2023 bij de course SWA in het semester Advanced Software Development (ASD). Deze les geef ik als promotie van de [minor DevOps](https://minor-devops.ams3.digitaloceanspaces.com/index.html), die start in september 2023 aan de HAN. Wellicht kan dit artikel, en de voorbeeld code in deze repository, jou ook helpen om RPC en/of JAVA RMI te gebruiken of beter te begrijpen.*
 
 *[Bart van der Wal, HAN](mailto:bart.vanderwal@han.nl)*, maart 2023
 
@@ -15,7 +15,7 @@ Heb je wellicht net wat theorie gehad over RPC - *Remote Procedure call*? Lees a
 
 > "In distributed computing, a *remote procedure call* (RPC) is when a computer program causes a *procedure* (subroutine) to execute in a *different address space* (commonly on another computer on a shared network), which is coded *as if* it were a normal (local) procedure call, without the programmer explicitly coding the details for the remote interaction. That is, the programmer writes essentially the same code whether the subroutine is local to the executing program, or remote."
 
-Het RPC concept bestaat al sinds 1960, schrijft dezelfde pagina, maar het is wellicht fijn om het wat concreter te maken hoe je als developer hier mee aan de slag kunt, met een voorbeeld in Java.
+Het nut van RPC is dus om 'functionaliteit' van 'elders' in je eigen systeem te kunnen gebruiken, alsof het lokaal aanwezig is. Het concept *RPC* bestaat al sinds 1960, schrijft dezelfde pagina. Doel van deze blog s wellicht fijn om het wat concreter te maken hoe je als developer hier mee aan de slag kunt, met een voorbeeld in Java.
 
 <img alt="Tiobe Index: Java zakt, maar it's still there" src="plaatjes/tiobe-index.png" align="right" width="400">
 
@@ -151,7 +151,7 @@ Einstein: "Make everything as simple as possible. But not simpler."
 
 *Figuur 6*: Uitgebreid klasse diagram van Java RMI (te uitgebreid)
 
-## Next steps
+## Next steps: RPC alternatieven en bredere context.
 
 >"Any sufficiently analyzed magic is indistinguishable from technology." (TV Tropes, z.d.)
 
@@ -164,13 +164,15 @@ Deze code gaf je hopelijk een indicatie van wat RPC is en hoe dit toe te passen.
 
 Voor het beter begrijpen van RPC, Naast concrete implementatie in Java, en vergelijken RPC vs. multithreading, kun je RPC ook beter begrijpen door het te vergelijken met REST API die je waarschijnlijk al beter kent. En ook veel populairder is. Een voordeel verschil is wel dat REST API's vaak via HTTP praten, en RMI bijvoorbeeld al op TCP niveau werkt, dus laagje lager, dus performanter.
 
-Een andere vergelijking en implementatie die je kunt bekijken is moderne RPC implementatie van Google, namelijk gRPC. Hoewel ze zelf beweren dat de `g` hierin NIET voor Google staat (maar zeggen ook niet waar dan wel voor). Hiervoor verwijs ik graag naar het code en het artikel van mijn oud minor student Daniel van de Ruit hierover. Hier als idee het schema van een Polyglot Microsevice architectuur met een .NET5 applicatie en een Kotlin applicatie.
+Een andere vergelijking en implementatie die je kunt bekijken is moderne RPC implementatie van Google, namelijk gRPC. Hoewel ze zelf beweren dat de `g` hierin NIET voor Google staat (maar zeggen ook niet waar dan wel voor). Als je je objecten toch wilt/moet distribueren, maar performance penalty wilt minimaliseren is dit een beter en moderner alternatief. Hiervoor verwijs ik graag naar [de code repo en het Medium artikel van mijn oud minor student Daniel van de Ruit](https://medium.com/@dm.vanderuit/grpc-onderzoek-readme-md-at-35a740eba31147ee5bfc01d5230a2d10ee4843b3-dmvanderuit-grpc-onderzoek-677b22010f43) hierover. Hier als idee het schema van een Polyglot Microsevice architectuur met een .NET applicatie en een Kotlin applicatie. 
 
 ![image](https://user-images.githubusercontent.com/3029472/224539618-85ccba87-2c1c-47dd-a0f4-97a4c29d1f3c.png)
 
 *Figuur 7*: Overzicht diagram voorbeeld microservice architectuur met gRPC ([Ruit, d van, 2021](https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md))
     
 Deze microservice(s) demo laat ook mooi het principe zien van 'elke microservice heeft eigen opslag'. De applicatie heeft prima README's om het aan de praat te krijgen. Helaas heeft de applicatie wel wat last van 'software erosion' bij het aan de praat krijgen merkte ik (Heroku, 20). Dit door de snel bewegende onderdelen eronder. Via verdere containerizen van de apps zou dit op te lossen zijn. Dat was buiten scope van het onderzoek, maar zou een mooie oefening voor de lezer zijn, of opdracht in de DevOps minor.
+    
+De optie om meerdere talen te ondersteunen geeft flexibiliteit, maar maakt gebruik van gRPC wel wat ingewikkelder dan RMI. In plaats van 'just' Java classes moet je een interface in Protobuf schrijven. Naast betere performance lijkt gRPC ook wel wat veiliger dan RMI, door gebruik van TLS op HTTP niveau i.p.v. TCP niveau. Wat met HTTP/2 vrij standaard is. Het is echter nog geen 'secure by design' gegeven de vele voorbeelden van volgens [dit artikel op Trend Micro). Onderstaande tabel geeft kort verdere  features, naar een voorbeeld uit een artikel over gRPC vs REST van Microsoft ([z.d.](https://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0)). Ik heb nog 3 alternatieven toegevoegd in de kolommen: Java RMI, Multithreaded code en old skool SOAP. Preciezer invullen is aan de lezer.
 
 | Feature	             | Java RMI                  | Multithreading          | gRPC	                    | HTTP APIs with JSON           | SOAP |
 | -----------------------| --------------------------|-------------------------|----------------------------|-------------------------------|------|
@@ -180,10 +182,10 @@ Deze microservice(s) demo laat ook mooi het principe zien van 'elke microservice
 | Prescriptiveness       | Typed OO                  | Typed OO                | Strict specification       | Loose. Any HTTP is valid.     | ?    |
 | Streaming	             | ?                         | Ja                      | Client, server, bi-direct.	| Client, server                | ?    |
 | Browser support        | No, build Ajax/websockets | Zie RMI                 | No (requires grpc-web)	    | Yes                           | ?    |
-| Security	Transport    | Java Socket fact.<sup>*</sup> |                     | (TLS)                      | Transport (TLS)               | ?    |
+| Security	Transport    | Java Sockets <sup>*</sup> |                         | (TLS)                      | Transport (TLS)               | ?    |
 | Client code-generation | Use shared Remote interf. |                         | Yes                        | OpenAPI + third-party tooling | ?    |
 
-*Tabel 1*: Aspecten van verschillende stylen van Inter proces communicatie, tabel gebaseerd op die van Microsoft ([z.d.](https://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0)).
+*Tabel 1*: 'Feature' vergelijking van communicatie in gedistribueerde software systemen ([Microsoft, [z.d.](https://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0)).
 
 <sup>*</sup> RMI is niet secure out of the box, maar dit moet extra toegevoegd via SSL en een zogenaamde Java 'securicy policy' zie [socketfactory, SSLInfo op oracle.com](https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/socketfactory/SSLInfo.html).
     
@@ -199,10 +201,10 @@ Deze microservice(s) demo laat ook mooi het principe zien van 'elke microservice
 - PlantUML (z.d.) *Sequence Diagram.* PlantUML, geraadpleegd op <https://plantuml.com/sequence-diagram>
 - Wikipedia. z.d. *Clarke's three laws.* Geraadpleegd op <https://en.wikipedia.org/wiki/Clarke%27s_three_laws>
 - Daniel van de Ruit, 8-10-2021. *gRPC binnen een Microservice Architectuur.* Geraadpleegd op <https://medium.com/@dm.vanderuit/grpc-onderzoek-readme-md-at-35a740eba31147ee5bfc01d5230a2d10ee4843b3-dmvanderuit-grpc-onderzoek-677b22010f43>
-- Daniel van de Ruit - 
- <https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md>
+- Daniel van de Ruit - oktober 2021 *Onderzoeksplan gRPC*. Geraadpleegd op <https://github.com/dmvanderuit/grpc-onderzoek/blob/35a740eba31147ee5bfc01d5230a2d10ee4843b3/onderzoeksplan.md>
 - Microsoft. z.d. *Compare gRPC services with HTTP APIs*. Geraadpleegd ophttps://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0
 - Heroku DevCenter, z.d. *Erosian resistance* Geraadpleegd op <https://devcenter.heroku.com/articles/erosion-resistance>
-  
+- Fiser, D. (17-8-2020, *How Unsecure gRPC Implementations Can Compromise APIs.* Trend Micro. Geraadpleegd op https://www.trendmicro.com/en_us/research/20/h/how-unsecure-grpc-implementations-can-compromise-apis.html
+    
 *Al deze bronnen zijn begin maart 2023 geraadpleegd, tenzij het er anders bij staat. Daar is datum niet vermeld, zoals APA eigenlijk vereist. Bij afstuderen en andere langer lopende (onderzoeks) opdrachten zal raadpleeg datum meer varieren, vandaar deze APA eis.
 
