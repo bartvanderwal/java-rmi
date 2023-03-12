@@ -1,0 +1,6 @@
+#!/bin/sh
+# Compileer de code voor de Server app.
+javac -d target -sourcepath src src/chatjava/ChatServerApp.java
+
+# Compileer de code voor de Client app.
+javac -d target -sourcepath src src/chatjava/ChatClientApp.java

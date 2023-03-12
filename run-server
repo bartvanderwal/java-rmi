@@ -1,0 +1,4 @@
+#!/bin/sh
+if ./compile ; then
+    java -cp target chatjava/ChatServerApp
+fi
