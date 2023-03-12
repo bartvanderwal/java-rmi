@@ -142,7 +142,7 @@ Als je dit klassendiagram rustig bekijkt maakt dit wellicht wat relaties tussen 
 
 Einstein: "Make everything as simple as possible. But not simpler."
 
-<img src="out/plaatjes/rmi-rmi-classes/class.png" alt="Uitgebreid Class Diagram van Java RMI voorbeeld">
+<img src="out/plaatjes/rmi-classes/class.png" alt="Uitgebreid Class Diagram van Java RMI voorbeeld">
 
 ## Next steps
 
