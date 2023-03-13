@@ -68,11 +68,19 @@ docker run -d -p 8081:8080 plantuml/plantuml-server:tomcat
 
 # Theorie, achtergrond
 
-Lees het [achtergrondartikel](blog.md) dat ik schreef.
+>Wie schrijft die blijft - Gezegd, bron onbekend.
+>The best way to learn something is to teach it" - Idem
 
-Mogelijke deelvragen:
+Lees het [achtergrondartikel](blog.md) dat ik schreef. 
 
-- Wat is RPC?
-- Hoe maak je een concrete implementatie van RPC in Java?
-- Welke verdere alternatieven zijn er?
-- Wat is de huidige state-of-the-art of trend qua RPC?
+Mijn hoofdvraag zou ik kunnen formuleren als:
+'Wat moet ik weten en wat moet ik vertellen over RPC om een beetje interessant en leuke les te geven aan klas SWA studenten?' :)
+
+Voor de lezer zal de vraag vooral zijn 'Wat is RPC en hoe 'doe' ik het?', of wellicht 'Wat is de bare minimum dat ik moet weten over en kunnen met RPC om het ASD project te halen.
+
+Hoe dan ook, ik structuur het artikel grofweg rond de onderstaande 4 deelvragen. Hoewel het artikel nog wat meer gestrutureerd kan, met ook korte leeswijze bovenin.
+
+- Wat is RPC? Welk nut heeft het, en wat is de oorsprong en historie?
+- Hoe maak je een concreet implementatie (voorbeeld) van RPC?
+- Zijn er nog problemen bij of nadelen van RPC?
+- Welke alternatieven zijn er voor RPC, wat is de 'state-of-the-art'?
