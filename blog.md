@@ -1,4 +1,4 @@
-## RPC Case study: Java RMI - Magie op afstand
+## RPC Case study: Java RMI - Magie op afstand?
 
 <img alt="Dumbledore doet een invocatie over afstand" src="plaatjes/dumbledore-invocation-quore.jpeg" align="right" width="300">
     <!-- <br clear="all"/> -->
