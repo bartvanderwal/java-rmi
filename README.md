@@ -76,3 +76,5 @@ Mogelijke deelvragen:
 - Hoe maak je een concrete implementatie van RPC in Java?
 - Welke verdere alternatieven zijn er?
 - Wat is de huidige state-of-the-art of trend qua RPC?
+
+Met dank aan [Francesco Cavallini](https://github.com/VR3ED/Java-RMI-Callback-sample)'s code die ik vond op GitHub voor het meehlpen bij debuggen van vervelende [Not Serializable probleem](https://stackoverflow.com/questions/11049810/rmi-notserializableexception-although-its-a-remote-object). Zie issue #3.

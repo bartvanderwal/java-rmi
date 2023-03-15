@@ -41,13 +41,16 @@ public class ChatJavaRmiClient extends UnicastRemoteObject implements ClientCall
     }
     
     private ChatJavaRmiInterface lookupHalloProxy() {
+        return proxy;
         try {
             Registry registry = LocateRegistry.getRegistry(host);
             
             proxy = (ChatJavaRmiInterface) registry.lookup(ChatJavaRmiInterface.NAAM);
             return proxy;
         } catch (RemoteException e) {
-            throw new ChatJavaException("Remote exception op Chat Client", e);
+            var foutBericht = "Remote exception op Chat Client";
+            // throw new ChatJavaException(foutBericht, e);
+            logger.info(foutBericht);
         } catch (NotBoundException e) {
             throw new ChatJavaException("Client: " + ChatJavaRmiInterface.NAAM + " interface niet bekend in RMI Registry.", e);
         }
