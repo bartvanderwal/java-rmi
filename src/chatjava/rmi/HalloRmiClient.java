@@ -2,12 +2,13 @@ package chatjava.rmi;
 
 import java.rmi.*;
 import java.rmi.registry.*;
+import java.rmi.server.UnicastRemoteObject;
+
 import chatjava.*;
 import chatjava.client.*;
-
 import chatjava.ChatJavaException;
 
-public class HalloRmiClient implements ChatCallbackInterface {
+public class HalloRmiClient extends UnicastRemoteObject implements ChatCallbackInterface {
 
     private String host;
 
@@ -21,7 +22,7 @@ public class HalloRmiClient implements ChatCallbackInterface {
 
     private HalloRmiInterface proxy;
 
-    public HalloRmiClient(String host) {
+    public HalloRmiClient(String host) throws RemoteException {
         this.host = host;
         proxy = lookupHalloProxy();
         logger = new ClientLogger(null);

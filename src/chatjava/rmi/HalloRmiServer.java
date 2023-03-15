@@ -10,7 +10,7 @@ import java.util.*;
 import chatjava.logging.Logger;
 import chatjava.*;
 
-public class HalloRmiServer implements HalloRmiInterface {
+public class HalloRmiServer extends UnicastRemoteObject implements HalloRmiInterface {
         
     private String serverNaam;
 
@@ -20,7 +20,7 @@ public class HalloRmiServer implements HalloRmiInterface {
     // TODO: Lijst berichten uitbreiden van simpele string, naar object met veld bericht, naam of id abonnee en evt emotie o.i.d.
     private List<String> berichten = new ArrayList<>();
 
-    public HalloRmiServer(String serverNaam) {
+    public HalloRmiServer(String serverNaam) throws RemoteException {
         this.serverNaam = serverNaam;
     }
 

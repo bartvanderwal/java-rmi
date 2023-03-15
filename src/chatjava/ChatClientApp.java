@@ -1,5 +1,6 @@
 package chatjava;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 import chatjava.rmi.*;
@@ -24,8 +25,11 @@ public class ChatClientApp {
         host = io.vraagInput(host, prompt);
 
         logger.info("Ok, host: '" + host + "'.");
-        var client = new HalloRmiClient(host);
-
-        client.startDialoog();
+        try {
+            var client = new HalloRmiClient(host);
+            client.startDialoog();
+        } catch (RemoteException e) {
+            throw new ChatJavaException("Client aanmaak error. Message: " + e.getMessage(), e);
+        }
     }
 }

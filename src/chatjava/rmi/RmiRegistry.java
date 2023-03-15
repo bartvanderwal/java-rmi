@@ -16,10 +16,12 @@ public class RmiRegistry {
     public RmiRegistry(String serverNaam, Logger logger) {
         this.logger = logger;
         Registry registry = null;
+        logger.info("Aanmaken RMI Registry");
         try {
             registry = LocateRegistry.createRegistry(1099);
             // Bind the remote object's stub in the registry.
             var chatServer = new HalloRmiServer(serverNaam);
+            logger.info("Chat Server '" + serverNaam + "' registreren bij registry.");
             HalloRmiInterface skeleton = (HalloRmiInterface) UnicastRemoteObject.exportObject(chatServer, 0);
             registry.bind(HalloRmiInterface.NAAM, skeleton);
         } catch (Exception e) {
