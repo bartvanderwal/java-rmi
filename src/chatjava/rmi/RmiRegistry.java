@@ -23,9 +23,9 @@ public class RmiRegistry {
             logger.info("Chat Server '" + serverNaam + "' registreren bij registry.");
             
             // De UnicastRemoteObject.exportObject aanroepen met klasse HalloRmiServer is niet nodig als deze klasse al UnicastRemoteObject extend.
-            var chatServer = new HalloRmiServer(serverNaam);
-            HalloRmiInterface skeleton = (HalloRmiInterface) UnicastRemoteObject.exportObject(chatServer, 0);
-            registry.rebind(HalloRmiInterface.NAAM, skeleton);
+            var chatServer = new ChatJavaRmiServer(serverNaam);
+            ChatJavaRmiInterface skeleton = (ChatJavaRmiInterface) UnicastRemoteObject.exportObject(chatServer, 0);
+            registry.rebind(ChatJavaRmiInterface.NAAM, skeleton);
         } catch (Exception e) {
             throw new ChatJavaException(e);
         }

@@ -23,22 +23,40 @@ public class Io {
      *  Inlezen tekst(regel) die gebruiker ingeeft op standaard input (keyboard).
      * @return ingelezen tekst
      */
-    public String vraagInput(String defaultAlsLeeg, String prompt) {
-        System.out.println(prompt);
+    public String vraagInput(String defaultAlsLeeg, String prompt, boolean newLine) {
+        if (newLine) {
+            System.out.println(prompt);
+        } else {
+            System.out.print(prompt);
+        }
         var tekst = console.readLine();
         var resultaat = (tekst==null || tekst.equals("")) ? defaultAlsLeeg : tekst;
 
         return resultaat;
     }
 
+    // Overload, met default newLine = true
+    public String vraagInput(String defaultAlsLeeg, String prompt) {
+        return vraagInput(defaultAlsLeeg, prompt, true);
+    }
+
+    // Overload, met default newLine = true
     public String vraagInput(boolean allowEmpty, String prompt) {
-        System.out.println(prompt);
+        return vraagInput(allowEmpty, prompt, true);
+    }
+
+    public String vraagInput(boolean allowEmpty, String prompt, boolean newLine) {
+        if (newLine) {
+            System.out.println(prompt);
+        } else {
+            System.out.print(prompt);
+        }
         var tekst = console.readLine();
         // var tekst = scanner.nextLine();
         if (!allowEmpty && (tekst == null || tekst.equals(""))) {
             System.out.println("Lege input niet toegestaan!");
             // Nogmaals (recursieve aanroep).
-            tekst = vraagInput(allowEmpty, prompt); 
+            tekst = vraagInput(allowEmpty, prompt, newLine); 
         }
         return tekst;
     }

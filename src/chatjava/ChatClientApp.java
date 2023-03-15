@@ -25,16 +25,16 @@ public class ChatClientApp {
             host = io.vraagInput(host, prompt);
         }
         logger.info("Chat Client: Ik gebruik als host (domeinnaam) voor de chat server: '" + host + "'.");
-        HalloRmiClient client = null;
+        ChatJavaRmiClient client = null;
         try {
-            client = new HalloRmiClient(host);
+            client = new ChatJavaRmiClient(host);
         } catch (RemoteException e) {
             throw new ChatJavaException("Client aanmaak error. Message: " + e.getMessage(), e);
         }
         try {
-            client.startDialoog();
+            client.startChatten();
         } catch (RemoteException e) {
-            throw new ChatJavaException("Probleem tijdens dialoog. Message: " + e.getMessage(), e);
+            throw new ChatJavaException("Probleem tijdens chatten. Message: " + e.getMessage(), e);
         }
     }
 }

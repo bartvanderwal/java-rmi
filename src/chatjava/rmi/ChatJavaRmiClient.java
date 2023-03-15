@@ -8,7 +8,7 @@ import chatjava.*;
 import chatjava.client.*;
 import chatjava.ChatJavaException;
 
-public class HalloRmiClient extends UnicastRemoteObject implements ChatCallbackInterface {
+public class ChatJavaRmiClient extends UnicastRemoteObject implements ClientCallbackInterface {
 
     private String host;
 
@@ -20,19 +20,19 @@ public class HalloRmiClient extends UnicastRemoteObject implements ChatCallbackI
     // TODO: Evt. ook een `client.properties` toevoegen met instelbaar logLevel erin zoals voor server app.
     private ClientLogger logger;
 
-    private HalloRmiInterface proxy;
+    private ChatJavaRmiInterface proxy;
 
-    public HalloRmiClient(String host) throws RemoteException {
+    public ChatJavaRmiClient(String host) throws RemoteException {
         this.host = host;
 
         logger = new ClientLogger(null);
 
-        // TODO: Here be dragons?
+        // TODO: Dit kan ook weg, omdat ClientCallbackInterface implementatie ChatJavaRmiClient nu ook UniCastRemoteObject implementeert. 
         // Bind the remote object's stub in the registry.
         // var nameOfRemoteReference = "chatCallback";
         // logger.info("Chat Client: " + nameOfRemoteReference + " registreren bij registry.");
         // Registry registry = LocateRegistry.getRegistry(host);
-        // ChatCallbackInterface skeleton = (ChatCallbackInterface) UnicastRemoteObject.exportObject(chatCallback, 0);
+        // ClientCallbackInterface skeleton = (ClientCallbackInterface) UnicastRemoteObject.exportObject(chatCallback, 0);
         // registry.bind(nameOfRemoteReference, skeleton);
         // // Einde TODO.
 
@@ -40,23 +40,23 @@ public class HalloRmiClient extends UnicastRemoteObject implements ChatCallbackI
         this.io = new Io(logger);
     }
     
-    private HalloRmiInterface lookupHalloProxy() {
+    private ChatJavaRmiInterface lookupHalloProxy() {
         try {
             Registry registry = LocateRegistry.getRegistry(host);
             
-            proxy = (HalloRmiInterface) registry.lookup(HalloRmiInterface.NAAM);
+            proxy = (ChatJavaRmiInterface) registry.lookup(ChatJavaRmiInterface.NAAM);
             return proxy;
         } catch (RemoteException e) {
             throw new ChatJavaException("Remote exception op Chat Client", e);
         } catch (NotBoundException e) {
-            throw new ChatJavaException("Client: " + HalloRmiInterface.NAAM + " interface niet bekend in RMI Registry.", e);
+            throw new ChatJavaException("Client: " + ChatJavaRmiInterface.NAAM + " interface niet bekend in RMI Registry.", e);
         }
     }
 
-    public void startDialoog() throws RemoteException {
+    public void startChatten() throws RemoteException {
         System.out.println("Chat client gestart.");
 
-        var halloWereldResponse = proxy.zegHallo(this);
+        var halloWereldResponse = proxy.zegHallo();
         
         logger.info("ChatServer draait! Response: " + halloWereldResponse);
 
@@ -65,11 +65,12 @@ public class HalloRmiClient extends UnicastRemoteObject implements ChatCallbackI
 
         // logger.info("Gelezen aanmeldNaam: " + aanmeldNaam);
         var response = meldAan(aanmeldNaam);
-        logger.info("Response aanmelding server: " + response);
-
-        var bericht = "";        
+        logger.info("Chat Server: " + response);
+        var initialPrompt = "Tik een chat bericht en <enter> om te verzenden ('stop' om te stoppen).";
+        logger.info(initialPrompt);
+        var bericht = "";
         while (!bericht.equals("stop")) {
-            bericht = io.vraagInput(false, "Tik een chat bericht en <enter> om te verzenden ('stop' om te stoppen).");
+            bericht = io.vraagInput(false, ">", false);
 
             // Verstuur bericht en handel response/callback af.
             chat(bericht, this.aanmeldNaam);
@@ -86,7 +87,7 @@ public class HalloRmiClient extends UnicastRemoteObject implements ChatCallbackI
         }
         this.aanmeldNaam = aanmeldNaam;
         try {
-            return proxy.meldAan(aanmeldNaam);
+            return proxy.meldAan(aanmeldNaam, this);
         } catch (RemoteException e) {
             throw new ChatJavaException("Client - Exception bij aanmelden:", e);
         }
@@ -109,8 +110,8 @@ public class HalloRmiClient extends UnicastRemoteObject implements ChatCallbackI
     }
 
     @Override
-    public void chatCallback(String result) throws RemoteException {
-        System.out.println("Callback resultaat: " + result);
+    public void callback(String result) throws RemoteException {
+        System.out.println("<-" + result);
     }
 
 }
