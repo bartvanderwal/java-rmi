@@ -16,4 +16,8 @@ public class ServerProperties extends GeneralProperties {
         return getValueForKey("chatGptApiToken");
     }
 
+    public boolean askServerName() {
+        return getBooleanValueForKey("askServerName", false);
+    }
+
 }

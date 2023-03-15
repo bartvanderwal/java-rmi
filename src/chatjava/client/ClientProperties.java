@@ -10,10 +10,12 @@ public class ClientProperties extends GeneralProperties {
         super("src/resources/client.properties");
     }
 
-    private Properties properties;
-
     public String defaultHost() {
         return getValueForKey("defaultHost");
+    }
+
+    public boolean askHostName() {
+        return getBooleanValueForKey("askHostName", false);
     }
 
 }

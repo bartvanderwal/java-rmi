@@ -10,7 +10,7 @@ import java.util.*;
 import chatjava.logging.Logger;
 import chatjava.*;
 
-public class HalloRmiServer extends UnicastRemoteObject implements HalloRmiInterface {
+public class HalloRmiServer /* extends UnicastRemoteObject */ implements HalloRmiInterface {
         
     private String serverNaam;
 
@@ -25,7 +25,12 @@ public class HalloRmiServer extends UnicastRemoteObject implements HalloRmiInter
     }
 
     @Override
-    public String zegHallo() {
+    public String zegHallo(ChatCallbackInterface callback) {
+        try {
+            callback.chatCallback("Hallo van de callback functie");
+        } catch (RemoteException e) {
+            throw new ChatJavaException("Callback uit chat mislukt. Error: " + e.getMessage());
+        }
         return "Hallo, wereld! 😀";
     }
 
@@ -47,15 +52,15 @@ public class HalloRmiServer extends UnicastRemoteObject implements HalloRmiInter
     }
 
     @Override
-    public void chat(String bericht, String aanmeldNaam, ChatCallbackInterface callback) {
+    public void chat(String bericht, String aanmeldNaam) {
         var berichtRegel = aanmeldNaam + ": " + bericht;
         this.berichten.add(berichtRegel);
         System.out.println(berichtRegel);
-        try {
-            callback.chatCallback("Echo: " + berichtRegel);
-        } catch (RemoteException e) {
-            throw new ChatJavaException("Callback uit chat mislukt. Error: " + e.getMessage());
-        }
+        // try {
+        //     callback.chatCallback("Echo: " + berichtRegel);
+        // } catch (RemoteException e) {
+        //     throw new ChatJavaException("Callback uit chat mislukt. Error: " + e.getMessage());
+        // }
     }
 
     private String abonneesAlsString() {

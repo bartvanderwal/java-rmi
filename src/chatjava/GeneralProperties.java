@@ -27,4 +27,9 @@ public abstract class GeneralProperties {
         return properties.getProperty(key);
     }
 
+    protected boolean getBooleanValueForKey(String key, boolean defaultValue) {
+        var result = properties.getProperty(key);
+        return Boolean.parseBoolean(result);
+    }
+
 }

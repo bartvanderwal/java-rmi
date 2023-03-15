@@ -7,10 +7,10 @@ public interface HalloRmiInterface extends Remote {
 
     public final static String NAAM = "chatjava";
 
-    String zegHallo() throws RemoteException;
+    String zegHallo(ChatCallbackInterface callback) throws RemoteException;
 
     String meldAan(String name) throws RemoteException;
 
-    void chat(String bericht, String aanmeldNaam, ChatCallbackInterface callback) throws RemoteException;
+    void chat(String bericht, String aanmeldNaam) throws RemoteException;
 }
 

@@ -1,14 +1,15 @@
-// package chatjava.rmi;
+package chatjava.rmi;
 
-// import java.rmi.*;
+import java.rmi.*;
+import java.rmi.server.UnicastRemoteObject;
 
-// public class ChatCallback extends UnicastRemoteObject implements ChatCallbackInterface {
-//     public ChatCallback() throws RemoteException {
-//         super();
-//     }
+public class ChatCallback /** extends UnicastRemoteObject **/ implements ChatCallbackInterface, Remote {
+    public ChatCallback() throws RemoteException {
+        super();
+    }
 
-//     @Override
-//     public void onCallback(String result) throws RemoteException {
-//         System.out.println("Resultaat: " + result);
-//     }
-// }
+    @Override
+    public void chatCallback(String result) throws RemoteException {
+        System.out.println("Resultaat: " + result);
+    }
+}

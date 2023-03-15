@@ -16,14 +16,14 @@ public class ChatClientApp {
 
         var hostFromCommandLine = (args.length < 1) ? null : args[0];
         var host = (hostFromCommandLine!=null) ? hostFromCommandLine : hostFromProperties;
-        var prompt = "Voer de host naam (alleen <Enter> voor default '" + host + "' uit properties of command line).";
 
         // Inlezen naam die gebruiker ingeeft.
         var logger = new ClientLogger();
-
-        Io io = new Io(logger);
-        host = io.vraagInput(host, prompt);
-
+        if (clientProperties.askHostName()) {
+            var prompt = "Voer de host naam in waar chat server draait (alleen <Enter> voor default '" + host + "' uit properties of command line of gebruik 'localhost' als je zelf chat server runt).";
+            Io io = new Io(logger);
+            host = io.vraagInput(host, prompt);
+        }
         logger.info("Ok, host: '" + host + "'.");
         try {
             var client = new HalloRmiClient(host);

@@ -24,11 +24,13 @@ public class ChatServerApp {
         logger.secret("Chat GPT API key: " + chatGptApiKey);
 
         logger.info("ChatJava server gestart.");
-        var prompt = "Voer een naam in voor de server (alleen <Enter> voor default '" + DEFAULT_SERVER_NAAM + "').";
-
+        var serverNaam = DEFAULT_SERVER_NAAM;
+        if (serverProperties.askServerName()) {
+            var prompt = "Voer een naam in voor de server (alleen <Enter> voor default '" + DEFAULT_SERVER_NAAM + "').";
+            io = new Io(logger);
+            serverNaam = io.vraagInput(DEFAULT_SERVER_NAAM, prompt);
+        }
         // Inlezen naam die gebruiker ingeeft.
-        io = new Io(logger);
-        var serverNaam = io.vraagInput(DEFAULT_SERVER_NAAM, prompt);
         registry = new RmiRegistry(serverNaam, logger);
     }
 
