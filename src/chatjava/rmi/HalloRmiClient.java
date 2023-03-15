@@ -8,7 +8,7 @@ import chatjava.*;
 import chatjava.client.*;
 import chatjava.ChatJavaException;
 
-public class HalloRmiClient /** extends UnicastRemoteObject implements ChatCallbackInterface **/ {
+public class HalloRmiClient extends UnicastRemoteObject implements ChatCallbackInterface {
 
     private String host;
 
@@ -29,15 +29,14 @@ public class HalloRmiClient /** extends UnicastRemoteObject implements ChatCallb
 
         // TODO: Here be dragons?
         // Bind the remote object's stub in the registry.
-        var nameOfRemoteReference = "chatCallback";
-        logger.info("Chat Client: " + nameOfRemoteReference + " registreren bij registry.");
-        Registry registry = LocateRegistry.getRegistry(host);
-        var chatCallback = new ChatCallback();
-        ChatCallbackInterface skeleton = (ChatCallbackInterface) UnicastRemoteObject.exportObject(chatCallback, 0);
-        registry.rebind(nameOfRemoteReference, skeleton);
+        // var nameOfRemoteReference = "chatCallback";
+        // logger.info("Chat Client: " + nameOfRemoteReference + " registreren bij registry.");
+        // Registry registry = LocateRegistry.getRegistry(host);
+        // ChatCallbackInterface skeleton = (ChatCallbackInterface) UnicastRemoteObject.exportObject(chatCallback, 0);
+        // registry.bind(nameOfRemoteReference, skeleton);
         // // Einde TODO.
 
-        proxy = lookupHalloProxy();
+        lookupHalloProxy();
         this.io = new Io(logger);
     }
     
@@ -57,7 +56,7 @@ public class HalloRmiClient /** extends UnicastRemoteObject implements ChatCallb
     public void startDialoog() throws RemoteException {
         System.out.println("Chat client gestart.");
 
-        proxy.zegHallo(r -> chatCallback.chatCallback(r));
+        var halloWereldResponse = proxy.zegHallo(this);
         
         logger.info("ChatServer draait! Response: " + halloWereldResponse);
 
@@ -76,18 +75,6 @@ public class HalloRmiClient /** extends UnicastRemoteObject implements ChatCallb
             chat(bericht, this.aanmeldNaam);
         }
         logger.info("Chat client gestopt. Tot de volgende keer!");
-    }
-
-    private ChatCallback chatCallback = new ChatCallback();
-
-    // We gaan ervan uit dat als ophalen proxy goed ging, er dan geen verdere RemoteExceptions meer optreden.
-    // En gooien daarom RemoteException door als RunTimeException.
-    private String zegHallo() {
-        try {
-            return proxy.zegHallo(r -> chatCallback.chatCallback(r));
-        } catch (RemoteException e) {
-            throw new ChatJavaException("Client exception: " + e.toString(), e);
-        }
     }
 
     private String meldAan(String aanmeldNaam) {
@@ -121,9 +108,9 @@ public class HalloRmiClient /** extends UnicastRemoteObject implements ChatCallb
         // }
     }
 
-    // @Override
-    // public void chatCallback(String result) throws RemoteException {
-    //     System.out.println("Callback resultaat: " + result);
-    // }
+    @Override
+    public void chatCallback(String result) throws RemoteException {
+        System.out.println("Callback resultaat: " + result);
+    }
 
 }
