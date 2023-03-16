@@ -15,7 +15,7 @@ public abstract class GeneralProperties {
             // load a properties file.
             properties.load(input);    
         } catch (IOException ex) {
-            throw new ChatJavaException("Het bestand " + propertiesFilePath + "lijkt niet te bestaan.", ex);
+            throw new ChatJavaException("Het bestand '" + propertiesFilePath + "' lijkt niet te bestaan.", ex);
         }
     }
 

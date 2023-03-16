@@ -1,0 +1,4 @@
+#!/bin/sh
+# Delete all images (bron: https://stackoverflow.com/questions/44785585/how-can-i-delete-all-local-docker-images)
+#docker rmi -f $(docker images -aq)
+docker build -t bartvanderwal/chat-java:latest .
