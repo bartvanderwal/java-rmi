@@ -1,0 +1,7 @@
+#!/bin/sh
+#docker logout
+#docker login
+#Bron: https://techtutorialsite.com/docker-push-images-to-dockerhub/
+docker push bartvanderwal/chat-java:latest
+
+#docker run -p 1099:1099 bartvanderwal/chat-java

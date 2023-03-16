@@ -18,6 +18,9 @@ public class RmiRegistry {
         Registry registry = null;
         logger.info("Aanmaken RMI Registry");
         try {
+            // Bron: https://stackoverflow.com/questions/15685686/java-rmi-connectexception-connection-refused-to-host-127-0-1-1
+            // TODO: Uit gedeelde property met client halen i.p.v. hardcoded.
+            // System.setProperty("java.rmi.server.hostname","145.74.104.208");
             registry = LocateRegistry.createRegistry(1099);
             // Bind the remote object's stub in the registry.
             logger.info("Chat Server '" + serverNaam + "' registreren bij registry.");
