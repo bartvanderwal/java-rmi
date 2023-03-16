@@ -35,22 +35,23 @@ public class ChatJavaRmiClient extends UnicastRemoteObject implements ClientCall
         // ClientCallbackInterface skeleton = (ClientCallbackInterface) UnicastRemoteObject.exportObject(chatCallback, 0);
         // registry.bind(nameOfRemoteReference, skeleton);
         // // Einde TODO.
-
-        lookupHalloProxy();
+        try {
+            proxy = lookupHalloProxy(host);
+        } catch (RemoteException e) {
+            var foutBericht = "Remote exception op Chat Client; het lijkt dat de chat server NIET draait op " + host;
+            logger.info(foutBericht);
+            throw new ChatJavaException(foutBericht);
+        }
         this.io = new Io(logger);
     }
     
-    private ChatJavaRmiInterface lookupHalloProxy() {
-        return proxy;
+    private static ChatJavaRmiInterface lookupHalloProxy(String host) throws RemoteException {
+        // ChatJavaRmiInterface proxy = null;
         try {
             Registry registry = LocateRegistry.getRegistry(host);
             
-            proxy = (ChatJavaRmiInterface) registry.lookup(ChatJavaRmiInterface.NAAM);
+            var proxy = (ChatJavaRmiInterface) registry.lookup(ChatJavaRmiInterface.NAAM);
             return proxy;
-        } catch (RemoteException e) {
-            var foutBericht = "Remote exception op Chat Client";
-            // throw new ChatJavaException(foutBericht, e);
-            logger.info(foutBericht);
         } catch (NotBoundException e) {
             throw new ChatJavaException("Client: " + ChatJavaRmiInterface.NAAM + " interface niet bekend in RMI Registry.", e);
         }

@@ -3,7 +3,7 @@ package chatjava;
 import java.util.*;
 
 import chatjava.rmi.*;
-import chatjava.logging.*;
+// import chatjava.logging.*;
 import chatjava.server.*;
 
 public class ChatServerApp {
@@ -16,7 +16,7 @@ public class ChatServerApp {
 
     static private ServerProperties serverProperties;
 
-    public static Logger logger = new ServerLogger();
+    public static ServerLogger logger = new ServerLogger();
 
     public static void main(String args[]) {        
         serverProperties = new ServerProperties();        

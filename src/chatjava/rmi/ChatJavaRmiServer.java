@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import chatjava.logging.Logger;
+import chatjava.server.ServerLogger;
 import chatjava.*;
 
 public class ChatJavaRmiServer /* extends UnicastRemoteObject */ implements ChatJavaRmiInterface {
@@ -22,8 +23,11 @@ public class ChatJavaRmiServer /* extends UnicastRemoteObject */ implements Chat
     // TODO: Nieuw aangemelde clients lijst van alle berichten tot nu toe sturen. Of evt. laten opvragen met nieuwe andere methode dan aanmelden de gemiste o.b.v. timestamp.
     private List<String> berichten = new ArrayList<>();
 
-    public ChatJavaRmiServer(String serverNaam) throws RemoteException {
+    private ServerLogger logger;
+
+    public ChatJavaRmiServer(String serverNaam, ServerLogger logger) throws RemoteException {
         this.serverNaam = serverNaam;
+        this.logger = logger;
     }
 
     @Override
@@ -43,9 +47,9 @@ public class ChatJavaRmiServer /* extends UnicastRemoteObject */ implements Chat
             abonnees.add(abonnee);
             response += "Je bent toegevoegd in lijst abonnees: " + abonneesAlsString();
         } else {
-            response += "Je stond al in de lijst abonnees: " + abonneesAlsString();
+            response += "Aanmelden mislukt. Er staat al een '" + naam + "'' in de lijst abonnees: " + abonneesAlsString();
         }
-        System.out.println(response);
+        logger.info(response);
         return response;
     }
 
@@ -55,16 +59,18 @@ public class ChatJavaRmiServer /* extends UnicastRemoteObject */ implements Chat
         this.berichten.add(berichtRegel);
             // Broadcast nieuwe bericht naar alle abonnees
             // Doe dit NIET voor de verzender, want dan echo't server voor hem/haar.
-            abonnees.stream().forEach(a -> {
+            abonnees.stream().forEach(abonnee -> {
                 try {
-                    if (!a.getNaam().equals(aanmeldNaam)) {
-                        a.getClientCallback().callback(berichtRegel);
+                    if (!abonnee.getNaam().equals(aanmeldNaam)) {
+                        abonnee.getClientCallback().callback(berichtRegel);
                     }
                 } catch (RemoteException e) {
-                    throw new ChatJavaException("Probleem tijdens broadcasten van nieuwe bericht naar alle (aangemelde) clients bij client: '" + a.getNaam() + "'.");
+                    // throw new ChatJavaException("Probleem tijdens broadcasten van nieuwe bericht naar alle (aangemelde) clients bij client: '" + a.getNaam() + "'.");
+                    logger.info("Bericht sturen naar abonnee '" + abonnee.getNaam() + "' mislukt. Deze is waarschijnlijk uitgelogd; haal deze uit de lijst. Error: " + e.getMessage());
+                    // abonnees.remove(abonnee);
                 }
             });
-        System.out.println(berichtRegel);
+        logger.info(berichtRegel);
     }
 
     private String abonneesAlsString() {

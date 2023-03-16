@@ -7,13 +7,13 @@ import java.rmi.server.*;
 import java.net.BindException;
 
 import chatjava.*;
-import chatjava.logging.*;
+import chatjava.server.*;
 
 public class RmiRegistry {
     
-    private Logger logger;
+    private ServerLogger logger;
 
-    public RmiRegistry(String serverNaam, Logger logger) {
+    public RmiRegistry(String serverNaam, ServerLogger logger) {
         this.logger = logger;
         Registry registry = null;
         logger.info("Aanmaken RMI Registry");
@@ -23,7 +23,9 @@ public class RmiRegistry {
             logger.info("Chat Server '" + serverNaam + "' registreren bij registry.");
             
             // De UnicastRemoteObject.exportObject aanroepen met klasse HalloRmiServer is niet nodig als deze klasse al UnicastRemoteObject extend.
-            var chatServer = new ChatJavaRmiServer(serverNaam);
+
+            // TODO: Aanmaken van Chat Server loskoppelen van RMI registry aanmaken en terugalen naar main o.i.d.
+            var chatServer = new ChatJavaRmiServer(serverNaam, logger);
             ChatJavaRmiInterface skeleton = (ChatJavaRmiInterface) UnicastRemoteObject.exportObject(chatServer, 0);
             registry.rebind(ChatJavaRmiInterface.NAAM, skeleton);
         } catch (Exception e) {
