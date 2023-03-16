@@ -1,0 +1,33 @@
+@startuml
+  actor gebruiker as "Chatter"
+  participant frontend as "Chat-Client web"
+  participant "chatJavaClientController: ChatClientController" as chatController 
+  participant "chatJavaClient: ChatJavaClient" as chatJavaClient
+  participant "ChatJavaServer: ChatJavaServer" as chatJavaServer
+  participant "Spring CDN" as cdn
+
+  gebruiker -> cdn: GET \nHTTP
+  cdn -> gebruiker: frontend assets
+  frontend -> chatJavaController: health?
+  chatJavaController -> chatJavaClient: zegHallo
+  chatJavaClient -> chatJavaServer: zegHallo()
+  chatJavaServer -> chatJavaClient: "Hallo"
+  chatJavaClient -> chatJavaController: "Hallo"
+  chatJavaController -> frontend: "Hallo"\nHTTP
+  frontend -> gebruiker: "Hallo"
+@enduml
+
+loginController -> loginService: POST\ncheck(user, password)
+     alt match
+     loginService -> loginController: true
+     loginController -> frontend: 200 (token)
+     frontend -> frontend: store token in localStorage
+     frontend -> frontend: ga naar Startscherm
+     frontend -> gebruiker: Toon sytartscherm skeleton
+     else ongeldige credentials
+     loginService -> loginController: false
+     loginController -> frontend: 401 Unauthorized
+     frontend -> gebruiker: Inlog mislukt
+     gebruiker -> frontend: Opnieuw proberen...
+     end
+  frontend -> playlistController: getPlaylists() etc.

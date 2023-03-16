@@ -78,3 +78,7 @@ Mogelijke deelvragen:
 - Wat is de huidige state-of-the-art of trend qua RPC?
 
 Met dank aan [Francesco Cavallini](https://github.com/VR3ED/Java-RMI-Callback-sample)'s code die ik vond op GitHub voor het meehlpen bij debuggen van vervelende [Not Serializable probleem](https://stackoverflow.com/questions/11049810/rmi-notserializableexception-although-its-a-remote-object). Zie issue #3.
+
+## Flow van een tpische ChatJava Chat
+
+![Bob & Alice](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/plantuml/plantuml-server/master/src/main/webapp/resource/test2diagrams.txt)
