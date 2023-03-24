@@ -1,8 +1,8 @@
 # RPC & Java RMI - Overzicht en concrete code
 
-Welkom in deze repository, met code en een [achtergrond artikel over **RMI**\(blog.md): *Remote Method Invocation* in Java. Dit is een implementatie van het concept **RPC**: *Remote Procedure Call*.
+Welkom in deze repository, met code en een [achtergrond artikel over **RMI** in `blog.md`](blog.md): *Remote Method Invocation* in Java. Dit is een implementatie van het concept **RPC**: *Remote Procedure Call*.
 
-Maar zoals hoort in een README nu eerst een 'how to run'. Het artikel/theorie staat verder naar beneden.
+Zoals hoort in een README nu eerst een 'how to run'.
 
 ## How to run? (Development environment)
 
@@ -66,9 +66,10 @@ Voor het tonen/genereren van de PlantUml diagrammen in VS Code run [plantuml  se
 docker run -d -p 8081:8080 plantuml/plantuml-server:tomcat
 ```
 
-# Theorie, achtergrond
+## Theorie, achtergrond
 
 >Wie schrijft die blijft - Gezegd, bron onbekend.
+
 >The best way to learn something is to teach it" - Idem
 
 Lees het [achtergrondartikel](blog.md) dat ik schreef. 
@@ -78,9 +79,12 @@ Mijn hoofdvraag zou ik kunnen formuleren als:
 
 Voor de lezer zal de vraag vooral zijn 'Wat is RPC en hoe 'doe' ik het?', of wellicht 'Wat is de bare minimum dat ik moet weten over en kunnen met RPC om het ASD project te halen.
 
-Hoe dan ook, ik structuur het artikel grofweg rond de onderstaande 4 deelvragen. Hoewel het artikel nog wat meer gestrutureerd kan, met ook korte leeswijze bovenin.
+Hoe dan ook, ik structuur het artikel grofweg rond de onderstaande 4 deelvragen <sup>*</sup>
 
 - Wat is RPC? Welk nut heeft het, en wat is de oorsprong en historie?
 - Hoe maak je een concreet implementatie (voorbeeld) van RPC?
 - Zijn er nog problemen bij of nadelen van RPC?
 - Welke alternatieven zijn er voor RPC, wat is de 'state-of-the-art'?
+
+<sup>*</sup>
+- [ ] TODO: Hoewel het artikel nog wat meer gestrutureerd kan, met ook korte leeswijzer bovenin.
