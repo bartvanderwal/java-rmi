@@ -135,9 +135,9 @@ Ook wil ik waarschuwen voor de 'leaky abstraction' van RPC. Dit is eigenlijk een
 
 ![image](https://user-images.githubusercontent.com/3029472/224537353-4a4b83ca-91fb-4bc6-ad62-700c4acdaf2e.png)
 
-*Figuur 7*: Leaking toilet tank ([Bron: Plumbing Southe Florida](https://www.sunshineplumbingofsouthflorida.com/plumbing-south-florida/leaking-toilet-tank/))
+*Figuur 7*: Leaking toilet tank ([Bron: Plumbing South Florida](https://www.sunshineplumbingofsouthflorida.com/plumbing-south-florida/leaking-toilet-tank/))
 
-Een letterlijke analogie is die van de toilet die na het doortrekken blijft doorlopen. Een toilet is geen ICT systeem, maar ouderwets mechanisch systeem. Maar heeft wel degelijk een abstractie (een facade) van de doortrekknop, -hendel of ouderwets touwtje. Als de toilet echter blijft doorlopen kom je echter dat er intern een heel systeem is, en moet je abstractie misschien even openbreken voor handmatige interventie (bij een toilet werkt aan de buitenkant hard op de spoelbak rammen nog wel eens; dit geeft bij computers minder succes).
+Een letterlijke analogie is die van de toilet die na het doortrekken blijft doorlopen. Een toilet is natuurlijk geen ICT systeem, maar wel een systeem: een (ouderwets) mechanisch systeem. Het is een 'samenwerkend geheel van delen' en het systeem geeft wel degelijk een abstractie (een facade) van de doortrekknop, -hendel of ouderwets touwtje. Als de toilet echter blijft doorlopen kom je echter dat er intern een heel systeem is, en moet je abstractie misschien even openbreken voor handmatige interventie (bij een toilet werkt aan de buitenkant hard op de spoelbak rammen nog wel eens; dit geeft bij computers minder succes).
 
 Martin Fowler heeft hier veel beter over nagedacht en geschreven dan ik zelf. Ik verwijs graag naar zijn artikel ['Microservices and the First Law of Distributed Objects'](https://martinfowler.com/articles/distributed-objects-microservices.html
 ). Het artikel is uit 2014 al weer en de 'law' zelf schreef/bedacht hij al in zijn veel 1006 boek 'Patterns of Enterprise Application Development' die als verplicht studiemateriaal binnen HAN ICT geldt (bij course OOSE DEA, optioneel materiaal SWA). Toch is het wellicht verloren gegaan. Dus kort: De 'First law of distributed objects is: 'Don't distribute your objects'.
@@ -207,13 +207,14 @@ De optie om meerdere talen te ondersteunen geeft flexibiliteit, maar maakt gebru
 - Oracle technotes, 2018. *Getting Started Using Java RMI*, Geraadpleegd op <https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/hello/hello-world.html>
 - PlantUML (z.d.) *Sequence Diagram.* PlantUML, geraadpleegd op <https://plantuml.com/sequence-diagram>
 - Salvia, C., Reinhardt, D. 2010 *Method vs Function vs Procedure.* Geraadpleegd op <https://softwareengineering.stackexchange.com/questions/20909/method-vs-function-vs-procedure>
-- Stackoverflow, 2008. *Best practice for Java IPC* Geraadpleegd op https://stackoverflow.com/questions/51452/best-practice-for-java-ipc
+- Stackoverflow, 2008. *Best practice for Java IPC* Geraadpleegd op <https://stackoverflow.com/questions/51452/best-practice-for-java-ipc>
 - Tiobe, 2023. Geraadpleegd op 8-3-2023 op <https://www.tiobe.com/tiobe-index/>
 - TV Tropes, z.d. *Clarke's third law.* Geraadpleegd op <https://tvtropes.org/pmwiki/pmwiki.php/Main/ClarkesThirdLaw>
-- Microsoft. z.d. *Compare gRPC services with HTTP APIs*. Geraadpleegd ophttps://learn.microsoft.com/en-us/aspnet/core/grpc/comparison?view=aspnetcore-6.0
+- Microsoft. z.d. *Compare gRPC services with HTTP APIs*. Geraadpleegd november 2024 op <https://learn.microsoft.com/en-us/aspnet/core/grpc/comparison>
 - Wikipedia. z.d. *Clarke's three laws.* Geraadpleegd op <https://en.wikipedia.org/wiki/Clarke%27s_three_laws>
 - Wikipedia, z.d. *Distributed object communication.* Geraadpleegd op <https://en.wikipedia.org/wiki/Distributed_object_communication#Skeleton>
 - Wikipedia, z.d. *Java Remote Methode Invocation.* Geraadpleegd op <https://en.wikipedia.org/wiki/Java_remote_method_invocation>
 - Wikipedia, 2022, *Remote Procedure Call.* Geraadpleegd op <https://en.wikipedia.org/wiki/Remote_procedure_call>
+- Sunshine Plumbing (z.d. 27-8-??) Geraadpleegd november 2024 op <https://www.sunshineplumbingofsouthflorida.com/plumbing-south-florida/leaking-toilet-tank/>
     
 *Al deze bronnen zijn begin maart 2023 geraadpleegd, tenzij het er anders bij staat. Daar is datum niet vermeld, zoals APA eigenlijk vereist. Bij afstuderen en andere langer lopende (onderzoeks) opdrachten zal raadpleeg datum meer varieren, vandaar deze APA eis.
